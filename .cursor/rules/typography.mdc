@@ -1,0 +1,15 @@
+---
+description: Use Satoshi as the only UI typeface across this landing site and all new pages.
+alwaysApply: true
+---
+
+# Typography: Satoshi
+
+Use **Satoshi** for all text on this project: the current landing page, new sections, and any additional pages.
+
+- Set `font-family` via `var(--font-sans)`, which is `'Satoshi', system-ui, -apple-system, sans-serif` in `src/index.css`.
+- Do not introduce Geist, Inter, or any other display/body font.
+- Do not hard-code a different `font-family` on components unless it is still Satoshi (or an icon font).
+- Inherit from `body` (`font: inherit` on form controls). New CSS should not override the family.
+- Satoshi is loaded from Fontshare in `index.html` (weights 300, 400, 500, 600, 700, 900). If you need another weight, add it there rather than swapping fonts.
+- Keep existing weight usage: 300 light copy, 500/600 headings and UI, 700 where already used.

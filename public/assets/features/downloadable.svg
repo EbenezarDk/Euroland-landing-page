@@ -1,0 +1,17 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="96" height="80" viewBox="0 0 96 80" fill="none">
+  <g transform="translate(4 12)">
+    <path d="M8 4H36L44 12V60H8V4Z" fill="#2E9B4F"/>
+    <path d="M36 4V12H44L36 4Z" fill="#1F7A3A"/>
+    <text x="26" y="40" text-anchor="middle" fill="#fff" font-family="Satoshi, Arial, sans-serif" font-size="16" font-weight="700">X</text>
+  </g>
+  <g transform="translate(26 6)">
+    <path d="M8 4H36L44 12V60H8V4Z" fill="#E85D04"/>
+    <path d="M36 4V12H44L36 4Z" fill="#C44A00"/>
+    <text x="26" y="40" text-anchor="middle" fill="#fff" font-family="Satoshi, Arial, sans-serif" font-size="11" font-weight="700">PDF</text>
+  </g>
+  <g transform="translate(48 0)">
+    <path d="M8 4H36L44 12V60H8V4Z" fill="#00ADF0"/>
+    <path d="M36 4V12H44L36 4Z" fill="#008FC8"/>
+    <text x="26" y="40" text-anchor="middle" fill="#fff" font-family="Satoshi, Arial, sans-serif" font-size="11" font-weight="700">JPG</text>
+  </g>
+</svg>

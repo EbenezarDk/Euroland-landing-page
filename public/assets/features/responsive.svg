@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
+  <rect x="24" y="8" width="40" height="72" rx="5" fill="#8EC8E8"/>
+  <g transform="translate(44 44) rotate(-45)">
+    <!-- shaft -->
+    <rect x="-18" y="-3.5" width="36" height="7" rx="1" fill="#0B5FA5"/>
+    <!-- right head (top-right when rotated) -->
+    <path d="M14 -9 L28 0 L14 9 Z" fill="#0B5FA5"/>
+    <!-- left head (bottom-left when rotated) -->
+    <path d="M-14 -9 L-28 0 L-14 9 Z" fill="#0B5FA5"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
+  <!-- Back-left lime square -->
+  <rect x="8" y="10" width="42" height="42" rx="4" fill="#B5E61D"/>
+  <!-- Middle rounded square -->
+  <rect x="26" y="28" width="40" height="40" rx="10" fill="#7BC67E"/>
+  <!-- Foreground dark green circle -->
+  <circle cx="62" cy="62" r="20" fill="#2E7D32"/>
+</svg>

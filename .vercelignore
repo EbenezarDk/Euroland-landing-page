@@ -1,0 +1,12 @@
+# Unused / oversized media — excluded from Vercel uploads
+public/assets/share-graph.mp4
+public/assets/ai.mp4
+public/assets/iat.mp4
+public/assets/hero-video.mp4
+public/assets/hero-bg-hires.png
+public/assets/hero-bg.jpg
+public/assets/hero-bg.png
+public/assets/hero-bg-opt.jpg
+public/assets/hero-bg-opt.png
+public/assets/client-logos.png
+public/assets/client-logos@2x.png

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="80" viewBox="0 0 88 80" fill="none">
+  <!-- Back light blue bubble -->
+  <path
+    d="M18 8
+       H54
+       C64 8 70 14 70 24
+       V36
+       C70 46 64 52 54 52
+       H42
+       L32 64
+       V52
+       H18
+       C8 52 2 46 2 36
+       V24
+       C2 14 8 8 18 8Z"
+    fill="#7EC8E8"
+  />
+  <!-- Front dark blue bubble -->
+  <path
+    d="M34 22
+       H70
+       C80 22 86 28 86 38
+       V50
+       C86 60 80 66 70 66
+       H58
+       L48 78
+       V66
+       H34
+       C24 66 18 60 18 50
+       V38
+       C18 28 24 22 34 22Z"
+    fill="#1565C0"
+  />
+</svg>

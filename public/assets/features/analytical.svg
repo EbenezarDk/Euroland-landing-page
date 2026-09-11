@@ -1,0 +1,11 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="88" height="72" viewBox="0 0 88 72" fill="none">
+  <path d="M14 48L44 60L74 48L44 36L14 48Z" fill="#D8DCE3"/>
+  <path d="M14 48V54L44 66V60L14 48Z" fill="#B8BEC8"/>
+  <path d="M74 48V54L44 66V60L74 48Z" fill="#9AA3AF"/>
+  <path d="M14 34L44 46L74 34L44 22L14 34Z" fill="#00ADF0"/>
+  <path d="M14 34V40L44 52V46L14 34Z" fill="#008FC8"/>
+  <path d="M74 34V40L44 52V46L74 34Z" fill="#0077A8"/>
+  <path d="M14 20L44 32L74 20L44 8L14 20Z" fill="#B5E61D"/>
+  <path d="M14 20V26L44 38V32L14 20Z" fill="#8FBF00"/>
+  <path d="M74 20V26L44 38V32L74 20Z" fill="#6F9600"/>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="80" viewBox="0 0 88 80" fill="none">
+  <defs>
+    <linearGradient id="tape" x1="14" y1="12" x2="74" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFC107"/>
+      <stop offset="0.5" stop-color="#FF9800"/>
+      <stop offset="1" stop-color="#EF6C00"/>
+    </linearGradient>
+  </defs>
+  <!-- Continuous folded tape path -->
+  <path
+    d="M12 12
+       H64
+       C72 12 76 16 76 24
+       V28
+       C76 36 72 40 64 40
+       H24
+       C16 40 12 44 12 52
+       V56
+       C12 64 16 68 24 68
+       H76"
+    fill="none"
+    stroke="url(#tape)"
+    stroke-width="14"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <!-- Measurement ticks on top edge of each segment -->
+  <g stroke="#1F1F1F" stroke-width="1.5" stroke-linecap="round" opacity="0.85">
+    <line x1="22" y1="5" x2="22" y2="12"/>
+    <line x1="30" y1="5" x2="30" y2="14"/>
+    <line x1="38" y1="5" x2="38" y2="12"/>
+    <line x1="46" y1="5" x2="46" y2="14"/>
+    <line x1="54" y1="5" x2="54" y2="12"/>
+    <line x1="62" y1="5" x2="62" y2="14"/>
+    <line x1="30" y1="33" x2="30" y2="40"/>
+    <line x1="38" y1="33" x2="38" y2="42"/>
+    <line x1="46" y1="33" x2="46" y2="40"/>
+    <line x1="54" y1="33" x2="54" y2="42"/>
+    <line x1="30" y1="61" x2="30" y2="68"/>
+    <line x1="38" y1="61" x2="38" y2="70"/>
+    <line x1="46" y1="61" x2="46" y2="68"/>
+    <line x1="54" y1="61" x2="54" y2="70"/>
+    <line x1="62" y1="61" x2="62" y2="68"/>
+    <line x1="70" y1="61" x2="70" y2="70"/>
+  </g>
+</svg>
