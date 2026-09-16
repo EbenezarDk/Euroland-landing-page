@@ -19,18 +19,15 @@ export function Hero({
   return (
     <section className="hero" id="hero" ref={sectionRef} aria-label="Euroland IR hero">
       <div className="hero__bg" ref={bgRef} aria-hidden>
-        <picture>
-          <source srcSet="/assets/hero-bg.webp" type="image/webp" />
-          <img
-            className="hero__video"
-            src="/assets/hero-bg-fallback.jpg"
-            alt=""
-            width={1920}
-            height={1080}
-            decoding="async"
-            fetchPriority="high"
-          />
-        </picture>
+        <img
+          className="hero__video"
+          src="/assets/50.png"
+          alt=""
+          width={1920}
+          height={1080}
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
       <div className="hero__veil" aria-hidden />
       <div className="hero__text-overlay" ref={overlayRef} aria-hidden />

@@ -2,6 +2,8 @@
 :root {
   --color-white: #ffffff;
   --color-cyan: #00adf0;
+  --color-cta: #0064b5;
+  --color-cta-hover: #0078cf;
   --color-navy: #000215;
   --color-ink: #000215;
   --color-input-text: #11110f;
@@ -80,7 +82,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-cyan);
+  outline: 2px solid var(--color-cta);
   outline-offset: 3px;
 }
 

@@ -32,41 +32,17 @@ export function Footer({ sectionRef }: FooterProps) {
             className="footer__logo"
             src="/assets/logo-footer.svg"
             alt="Euroland IR"
-            width={214}
-            height={20}
+            width={407}
+            height={38}
           />
           <nav className="footer__nav" aria-label="Footer">
-            <Link to="/share-graph">Share Graph</Link>
-            <Link to="/interactive-analysis-tool">Interactive Analysis Tool</Link>
-            <Link to="/artificial-intelligence">Artificial Intelligence</Link>
+            <Link to="/share-graph">AI assistant</Link>
+            <Link to="/interactive-analysis-tool">IR solutions</Link>
+            <Link to="/artificial-intelligence">ESG solutions</Link>
           </nav>
         </div>
 
         <div className="footer__meta">
-          <div className="footer__support">
-            <p className="footer__support-text">
-              Supported by the European Cybersecurity
-              <br />
-              Competence Center with its member states
-            </p>
-            <div className="footer__badges">
-              <img
-                className="footer__badge-eu"
-                src="/assets/eu-funded.png"
-                alt="EU co-funded"
-                width={38}
-                height={40}
-              />
-              <img
-                className="footer__badge-eccc"
-                src="/assets/eccc-logo.svg"
-                alt="European Cybersecurity Competence Center"
-                width={104}
-                height={40}
-              />
-            </div>
-          </div>
-
           <div className="footer__social">
             {SOCIAL.map((item) => (
               <a

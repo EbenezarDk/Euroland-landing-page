@@ -1,13 +1,13 @@
 export const NAV_ITEMS = [
   { label: 'About Us', to: '/', hash: 'about', match: '/' },
-  { label: 'Share Graph', to: '/share-graph', match: '/share-graph' },
+  { label: 'AI assistant', to: '/share-graph', match: '/share-graph' },
   {
-    label: 'Interactive Analysis Tool',
+    label: 'IR solutions',
     to: '/interactive-analysis-tool',
     match: '/interactive-analysis-tool',
   },
   {
-    label: 'Artificial Intelligence',
+    label: 'ESG solutions',
     to: '/artificial-intelligence',
     match: '/artificial-intelligence',
   },

@@ -71,8 +71,8 @@ export function SiteHeader({
               className="hero__logo hero__logo--white"
               src="/assets/logo-white.svg"
               alt="Euroland IR"
-              width={278}
-              height={26}
+              width={385}
+              height={36}
               data-node-id="120:8"
             />
             <img
@@ -80,8 +80,8 @@ export function SiteHeader({
               src="/assets/logo-blue.svg"
               alt=""
               aria-hidden
-              width={278}
-              height={26}
+              width={385}
+              height={36}
             />
           </a>
         ) : (
@@ -90,8 +90,8 @@ export function SiteHeader({
               className="hero__logo hero__logo--white"
               src="/assets/logo-white.svg"
               alt="Euroland IR"
-              width={278}
-              height={26}
+              width={385}
+              height={36}
               data-node-id="120:8"
             />
             <img
@@ -99,8 +99,8 @@ export function SiteHeader({
               src="/assets/logo-blue.svg"
               alt=""
               aria-hidden
-              width={278}
-              height={26}
+              width={385}
+              height={36}
             />
           </Link>
         )}

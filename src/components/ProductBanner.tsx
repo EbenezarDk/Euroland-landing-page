@@ -9,18 +9,15 @@ export function ProductBanner({ product }: ProductBannerProps) {
   return (
     <section className="hero product-banner" aria-label={`${product.label} banner`}>
       <div className="hero__bg" aria-hidden>
-        <picture>
-          <source srcSet="/assets/hero-bg.webp" type="image/webp" />
-          <img
-            className="hero__video"
-            src="/assets/hero-bg-fallback.jpg"
-            alt=""
-            width={1920}
-            height={1080}
-            decoding="async"
-            fetchPriority="high"
-          />
-        </picture>
+        <img
+          className="hero__video"
+          src="/assets/50.png"
+          alt=""
+          width={1920}
+          height={1080}
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
       <div className="hero__veil" aria-hidden />
       <div className="hero__text-overlay" aria-hidden style={{ opacity: 0.5 }} />
