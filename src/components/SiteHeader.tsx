@@ -66,7 +66,19 @@ export function SiteHeader({
     >
       <div className="hero__brand" data-node-id="120:7">
         {isHashHome ? (
-          <a href={homeHref} aria-label="Euroland IR home" onClick={closeMenu}>
+          <a
+            href={homeHref}
+            aria-label="Euroland IR home"
+            onClick={(event) => {
+              event.preventDefault()
+              if (location.hash !== '#hero') {
+                window.location.hash = 'hero'
+              }
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+              window.dispatchEvent(new Event('scroll'))
+              closeMenu()
+            }}
+          >
             <img
               className="hero__logo hero__logo--white"
               src="/assets/logo-white.svg"
@@ -85,7 +97,15 @@ export function SiteHeader({
             />
           </a>
         ) : (
-          <Link to={homeHref} aria-label="Euroland IR home" onClick={closeMenu}>
+          <Link
+            to={
+              homeHref === '/' || homeHref === '/#hero'
+                ? { pathname: '/', hash: 'hero' }
+                : homeHref
+            }
+            aria-label="Euroland IR home"
+            onClick={closeMenu}
+          >
             <img
               className="hero__logo hero__logo--white"
               src="/assets/logo-white.svg"
@@ -118,7 +138,7 @@ export function SiteHeader({
               <img src="/assets/contact-glow.svg" alt="" width={36} height={36} />
             </span>
             <span className="hero__contact-label" data-node-id="88:2060">
-              Get a call back
+              Let's Talk
             </span>
           </a>
         ) : (
@@ -132,7 +152,7 @@ export function SiteHeader({
               <img src="/assets/contact-glow.svg" alt="" width={36} height={36} />
             </span>
             <span className="hero__contact-label" data-node-id="88:2060">
-              Get a call back
+              Let's Talk
             </span>
           </Link>
         )}
@@ -166,7 +186,13 @@ export function SiteHeader({
                 key={item.label}
                 className={`hero__mobile-link${active ? ' hero__mobile-link--active' : ''}`}
                 to={hash ? { pathname: item.to, hash } : item.to}
-                onClick={closeMenu}
+                onClick={() => {
+                  if (hash === 'hero' && window.location.pathname === item.to) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    window.dispatchEvent(new Event('scroll'))
+                  }
+                  closeMenu()
+                }}
               >
                 {item.label}
               </Link>
@@ -181,7 +207,7 @@ export function SiteHeader({
               href={contactHref}
               onClick={closeMenu}
             >
-              Get a call back
+              Let's Talk
               <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
             </a>
           ) : (
@@ -190,7 +216,7 @@ export function SiteHeader({
               to={contactHref}
               onClick={closeMenu}
             >
-              Get a call back
+              Let's Talk
               <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
             </Link>
           )}

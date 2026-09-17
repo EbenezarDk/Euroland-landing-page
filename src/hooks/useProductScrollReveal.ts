@@ -18,7 +18,46 @@ function isCompactViewport() {
   return window.matchMedia('(max-width: 768px)').matches
 }
 
-/** Shared scrubbed reveal used across product intro / features / explained. */
+/**
+ * Scrub completes while the element is still near the bottom of the viewport,
+ * so anything above the sticky chrome / “line” is already at full opacity.
+ */
+export function scrubRevealIn(
+  el: HTMLElement,
+  {
+    y = 24,
+    compact = false,
+  }: {
+    y?: number
+    compact?: boolean
+  } = {},
+) {
+  const start = 'top bottom'
+  // Finish while still in the lower ~10–15% of the viewport
+  const end = compact ? 'top 90%' : 'top 88%'
+  const scrub = compact ? 0.25 : 0.35
+
+  gsap.fromTo(
+    el,
+    { y, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: el,
+        start,
+        end,
+        scrub,
+        // Snap to finished state if already past the end on load/refresh
+        invalidateOnRefresh: true,
+      },
+    },
+  )
+}
+
+/** Shared scrubbed reveal used across product intro / features / explained / live. */
 export function useProductScrollReveal(
   sectionRef: RefObject<HTMLElement | null>,
   { header, items, media }: ProductScrollRevealOptions,
@@ -28,87 +67,50 @@ export function useProductScrollReveal(
     if (!section) return
 
     const headerEl = header ? section.querySelector<HTMLElement>(header) : null
-    const itemEls = items ? section.querySelectorAll<HTMLElement>(items) : []
+    const itemEls = items
+      ? Array.from(section.querySelectorAll<HTMLElement>(items))
+      : []
     const mediaEl = media ? section.querySelector<HTMLElement>(media) : null
     const compact = isCompactViewport()
     const reduced = prefersReducedMotion()
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        const targets = [headerEl, ...itemEls, mediaEl].filter(Boolean)
+        const targets = [headerEl, ...itemEls, mediaEl].filter(Boolean) as HTMLElement[]
         if (targets.length) {
           gsap.from(targets, {
             opacity: 0,
-            duration: 0.35,
-            stagger: 0.05,
-            scrollTrigger: { trigger: section, start: 'top 80%' },
+            y: 12,
+            duration: 0.28,
+            stagger: 0.04,
+            scrollTrigger: { trigger: section, start: 'top 95%' },
           })
         }
         return
       }
 
-      if (headerEl) {
-        gsap.fromTo(
-          headerEl,
-          { y: compact ? 32 : 56, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 88%',
-              end: 'top 42%',
-              scrub: compact ? 0.5 : 0.7,
-            },
-          },
-        )
-      }
+      if (headerEl) scrubRevealIn(headerEl, { y: compact ? 16 : 24, compact })
 
-      if (itemEls.length) {
-        itemEls.forEach((item, index) => {
-          gsap.fromTo(
-            item,
-            { y: compact ? 36 : 48 + index * 8, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              ease: 'none',
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 82%',
-                end: 'top 30%',
-                scrub: compact ? 0.5 : 0.7,
-              },
-            },
-          )
+      itemEls.forEach((item, index) => {
+        scrubRevealIn(item, {
+          y: compact ? 16 + index * 2 : 22 + index * 4,
+          compact,
         })
-      }
+      })
 
-      if (mediaEl) {
-        gsap.fromTo(
-          mediaEl,
-          { y: compact ? 28 : 48, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: mediaEl,
-              start: 'top 90%',
-              end: 'top 55%',
-              scrub: 0.6,
-            },
-          },
-        )
-      }
+      if (mediaEl) scrubRevealIn(mediaEl, { y: compact ? 16 : 24, compact })
     }, section)
 
-    requestAnimationFrame(() => ScrollTrigger.refresh())
+    const refresh = () => ScrollTrigger.refresh()
+    requestAnimationFrame(refresh)
 
-    return () => ctx.revert()
+    window.addEventListener('resize', refresh)
+    window.addEventListener('orientationchange', refresh)
+
+    return () => {
+      window.removeEventListener('resize', refresh)
+      window.removeEventListener('orientationchange', refresh)
+      ctx.revert()
+    }
   }, [sectionRef, header, items, media])
 }

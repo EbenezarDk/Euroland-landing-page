@@ -6,8 +6,15 @@ export type ProductSlug =
 export type ProductFeature = {
   title: string
   description: string
-  icon: string
-  iconAlt: string
+}
+
+export type ProductFeaturesSection = {
+  heading: string
+  title?: string
+  description?: string
+  /** Optional cyan label shown directly above the feature cards */
+  featuresLabel?: string
+  features: ProductFeature[]
 }
 
 export type ProductLiveExample = {
@@ -28,7 +35,6 @@ export type ProductContent = {
   slug: ProductSlug
   label: string
   path: string
-  eyebrow: string
   title: string
   subtitle: string
   introEyebrow: string
@@ -36,6 +42,9 @@ export type ProductContent = {
   description: string[]
   featuresHeading?: string
   features?: ProductFeature[]
+  secondaryFeatures?: ProductFeaturesSection
+  liveExamples?: ProductLiveExample[]
+  secondaryLiveExamples?: ProductLiveExample[]
   explained?: ProductExplained
   mediaType: 'video' | 'image'
   videoSrc: string
@@ -46,63 +55,79 @@ export type ProductContent = {
 export const PRODUCTS: Record<ProductSlug, ProductContent> = {
   'share-graph': {
     slug: 'share-graph',
-    label: 'Share Graph',
+    label: 'AI Assistant',
     path: '/share-graph',
-    eyebrow: 'Share Graph',
     title: 'TELL YOUR EQUITY STORY',
-    subtitle: 'SHARE GRAPH',
-    introEyebrow: 'About Share Graph',
+    subtitle: 'PURPOSE-BUILT\nAI SOLUTIONS FOR IR',
+    introEyebrow: 'AI Assistant',
     introHeading:
-      'Our share graph allows you to present your share performance in the most comprehensive and compelling way possible. We showcase your share in the best light',
-    description: [
-      'Go beyond the numbers with an interactive view of your company’s share performance. Explore historical trends, benchmark against peers and market indices, and see how key corporate events shaped your equity story—all in one powerful experience.',
-    ],
+      'Purpose-built intelligence that helps investors find answers faster while giving IR teams deeper visibility into what matters most.',
+    description: [],
     featuresHeading: 'Features',
     features: [
       {
-        title: 'Analytical',
+        title: 'Instant IR Intelligence',
         description:
-          "We make sure not to just present your current share price, but the context behind it. Get the full story by analysing the share's reaction to Earnings, Indices, Peers and more.",
-        icon: '/assets/features/analytical.svg',
-        iconAlt: 'Analytical layers icon',
+          'Give investors instant access to precise information across financial reports, earnings releases, presentations, website content and other approved IR materials.',
       },
       {
-        title: 'Responsive',
+        title: 'Trusted, Source-Backed Answers',
         description:
-          'Our share graph, like all our tools, is responsive and blends in seamlessly with your website layout. The options for customisation are limitless and our tools always utilizes the latest technology.',
-        icon: '/assets/features/responsive.svg',
-        iconAlt: 'Responsive device icon',
+          'Deliver accurate answers supported by direct source citations and specific page references, building investor confidence in every response.',
       },
       {
-        title: 'Consolidated',
+        title: 'Multilingual Investor Access',
         description:
-          'All important information concerning your share price is consolidated within one tool, producing a transparent and enlightening overview of your Equity story.',
-        icon: '/assets/features/consolidated.svg',
-        iconAlt: 'Consolidated focus icon',
+          'Engage a broader global audience with multilingual support across English, Arabic, Chinese and other languages.',
       },
       {
-        title: 'Downloadable',
+        title: 'Powerful IR Analytics',
         description:
-          'Your data is downloadable in a variety of formats, enabling your investors to undertake their own analysis, as well as allowing you to create presentation material seamlessly.',
-        icon: '/assets/features/downloadable.svg',
-        iconAlt: 'Downloadable file formats icon',
+          'Understand how investors engage with your content through a dedicated analytics portal. Included are the questions asked, the answers provided, the topics generating the most interest, most referenced reports, and other usage data.',
       },
     ],
-    explained: {
-      heading: ['Your share price', 'Explained'],
-      body: [
-        'To help build an understanding of your share price, the most important aspect you can give investors is context. We enable your present and future stakeholders to gain as complete an insight into the movement of your share price as possible. We ensure that your share price performance is comparable with indicies, peers and indicators such as press releases and result publications.',
-        'We focus and consolidate your share information by also including basic share data, latest trades by broker, order depth and long-term performance. By putting your share price against a background of contextual information, your investors get a broader and fuller understanding of your performance. A deeper understanding is the foundation of a better, longer relationship with your investors.',
-      ],
-      image: '/assets/share-graph-explained.png',
-      imageAlt: 'Share Graph interface showing Alma Media share price performance',
-      liveExamples: [
-        { src: '/assets/clients/santander.png', alt: 'Santander', height: 28 },
-        { src: '/assets/clients/rio-tinto.png', alt: 'Rio Tinto', height: 26 },
-        { src: '/assets/clients/repsol.png', alt: 'Repsol', height: 28 },
-        { src: '/assets/clients/experian.png', alt: 'Experian', height: 28 },
+    secondaryFeatures: {
+      heading: 'AI-Powered Podcast Series',
+      title:
+        'Turn financial information into engaging conversations that make your equity story easier to access, understand and share.',
+      featuresLabel: 'Features',
+      features: [
+        {
+          title: 'Turn Financial Content into Investor Stories',
+          description:
+            'Transform quarterly earnings, financial reports, IR presentations and sustainability content into polished podcast episodes that bring your performance, strategy and equity story to life.',
+        },
+        {
+          title: 'English & Arabic Delivery',
+          description:
+            'Reach a broader investor audience with professionally produced podcast episodes available in both English and Arabic.',
+        },
+        {
+          title: 'Multi-Channel Distribution',
+          description:
+            'Extend the reach of your IR content across platforms such as Spotify, YouTube and LinkedIn to meet investors on the channels they already use.',
+        },
       ],
     },
+    liveExamples: [
+      { src: '/assets/clients/live-examples/ai-assistant/experian_full_colour-1.png', alt: 'Experian', height: 36 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-420.png', alt: 'Luberef', height: 48 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-427.png', alt: 'First Abu Dhabi Bank', height: 48 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-428.png', alt: 'Alinma Bank', height: 40 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-429.png', alt: 'Nahdi', height: 40 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-430.png', alt: 'NADEC', height: 48 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-431.png', alt: 'etisalat and', height: 48 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-432.png', alt: 'Salik', height: 36 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-433.png', alt: 'Client logo', height: 40 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-434.png', alt: 'Omantel', height: 32 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-435.png', alt: 'Givaudan', height: 28 },
+      { src: '/assets/clients/live-examples/ai-assistant/image-436.png', alt: 'Corbion', height: 48 },
+    ],
+    secondaryLiveExamples: [
+      { src: '/assets/clients/live-examples/ai-set-2/image-427.png', alt: 'Salik', height: 36 },
+      { src: '/assets/clients/live-examples/ai-set-2/image-437.png', alt: 'Omantel', height: 32 },
+      { src: '/assets/clients/live-examples/ai-set-2/image-440.png', alt: 'DEYAAR', height: 40 },
+    ],
     mediaType: 'image',
     videoSrc: '/assets/share-graph.jpg',
     videoPoster: '/assets/share-graph.jpg',
@@ -112,7 +137,6 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     slug: 'interactive-analysis-tool',
     label: 'Interactive Analysis Tool',
     path: '/interactive-analysis-tool',
-    eyebrow: 'Interactive Analysis Tool',
     title: 'TELL YOUR EQUITY STORY',
     subtitle: 'INTERACTIVE ANALYSIS',
     introEyebrow: 'About Interactive Analysis Tool',
@@ -127,29 +151,21 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         title: 'Interactive',
         description:
           'Our tool allows your current and potential stakeholders to interact with your data, choosing the information and making the comparisons relevant to their interest.',
-        icon: '/assets/features/interactive.svg',
-        iconAlt: 'Interactive sliders icon',
       },
       {
         title: 'Flexible',
         description:
           'Do you want to showcase your monthly sales? Or the yearly improvement of your waste management? Maybe highlight your income statement? Our IAT is flexible to suit your needs.',
-        icon: '/assets/features/flexible.svg',
-        iconAlt: 'Flexible shapes icon',
       },
       {
         title: 'Customisable',
         description:
           'We customize your data to ensure all relative comparisons are only a click away. We group and contextualise your key figures to ensure understanding and improve communication with your stakeholders.',
-        icon: '/assets/features/customisable.svg',
-        iconAlt: 'Customisable measuring tape icon',
       },
       {
         title: 'Shareable',
         description:
           'Download and present your KPIs on print-outs, in powerpoint presentations or via social media. Have up-to-date and beautifully presented data immediately available for your investor meetings and roadshows.',
-        icon: '/assets/features/shareable.svg',
-        iconAlt: 'Shareable speech bubbles icon',
       },
     ],
     explained: {
@@ -161,10 +177,10 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       image: '/assets/iat-explained.png',
       imageAlt: 'Interactive Analysis Tool showing key performance indicators',
       liveExamples: [
-        { src: '/assets/clients/ing.png', alt: 'ING', height: 26 },
-        { src: '/assets/clients/experian.png', alt: 'Experian', height: 28 },
-        { src: '/assets/clients/carlsberg.png', alt: 'Carlsberg', height: 28 },
-        { src: '/assets/clients/moncler.png', alt: 'Moncler Group', height: 28 },
+        { src: '/assets/clients/logo-005.png', alt: 'ING', height: 26 },
+        { src: '/assets/clients/logo-006.png', alt: 'Experian', height: 28 },
+        { src: '/assets/clients/logo-007.png', alt: 'Carlsberg', height: 28 },
+        { src: '/assets/clients/logo-008.png', alt: 'Moncler Group', height: 28 },
       ],
     },
     mediaType: 'video',
@@ -176,7 +192,6 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     slug: 'artificial-intelligence',
     label: 'Artificial Intelligence',
     path: '/artificial-intelligence',
-    eyebrow: 'Artificial Intelligence',
     title: 'TELL YOUR EQUITY STORY',
     subtitle: 'ARTIFICIAL INTELLIGENCE',
     introEyebrow: 'About Artificial Intelligence',
@@ -191,29 +206,21 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         title: 'Analytical',
         description:
           "We make sure not to just present your current share price, but the context behind it. Get the full story by analysing the share's reaction to Earnings, Indices, Peers and more.",
-        icon: '/assets/features/analytical.svg',
-        iconAlt: 'Analytical layers icon',
       },
       {
         title: 'Responsive',
         description:
           'Our share graph, like all our tools, is responsive and blends in seamlessly with your website layout. The options for customisation are limitless and our tools always utilizes the latest technology.',
-        icon: '/assets/features/responsive.svg',
-        iconAlt: 'Responsive device icon',
       },
       {
         title: 'Consolidated',
         description:
           'All important information concerning your share price is consolidated within one tool, producing a transparent and enlightening overview of your Equity story.',
-        icon: '/assets/features/consolidated.svg',
-        iconAlt: 'Consolidated focus icon',
       },
       {
         title: 'Downloadable',
         description:
           'Your data is downloadable in a variety of formats, enabling your investors to undertake their own analysis, as well as allowing you to create presentation material seamlessly.',
-        icon: '/assets/features/downloadable.svg',
-        iconAlt: 'Downloadable file formats icon',
       },
     ],
     explained: {
@@ -225,10 +232,10 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       image: '/assets/ai-explained.png',
       imageAlt: 'Euroland AI search experience for Investor Relations content',
       liveExamples: [
-        { src: '/assets/clients/sony.png', alt: 'Sony', height: 22 },
-        { src: '/assets/clients/asml.png', alt: 'ASML', height: 24 },
-        { src: '/assets/clients/swisscom.png', alt: 'Swisscom', height: 28 },
-        { src: '/assets/clients/eni.png', alt: 'Eni', height: 28 },
+        { src: '/assets/clients/logo-009.png', alt: 'Sony', height: 22 },
+        { src: '/assets/clients/logo-010.png', alt: 'ASML', height: 24 },
+        { src: '/assets/clients/logo-011.png', alt: 'Swisscom', height: 28 },
+        { src: '/assets/clients/logo-012.png', alt: 'Eni', height: 28 },
       ],
     },
     mediaType: 'video',

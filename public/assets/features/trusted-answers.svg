@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
+  <!-- Document with checkmark and citation marks -->
+  <g>
+    <!-- Main document -->
+    <rect x="20" y="16" width="48" height="56" rx="4" fill="#E8F7FD" stroke="#00ADF0" stroke-width="2"/>
+    
+    <!-- Text lines -->
+    <line x1="28" y1="28" x2="52" y2="28" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="28" y1="36" x2="56" y2="36" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="28" y1="44" x2="50" y2="44" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="28" y1="52" x2="54" y2="52" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Citation markers -->
+    <text x="54" y="32" font-family="Satoshi, sans-serif" font-size="10" fill="#00ADF0" font-weight="600">[1]</text>
+    <text x="52" y="48" font-family="Satoshi, sans-serif" font-size="10" fill="#00ADF0" font-weight="600">[2]</text>
+    
+    <!-- Shield with checkmark overlay -->
+    <path d="M56 48C56 48 56 50 56 52C56 58 52 62 48 64C44 62 40 58 40 52C40 50 40 48 40 48L48 44L56 48Z" fill="#B5E61D" stroke="#8FBF00" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M44 54L46.5 56.5L52 50" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

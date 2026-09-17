@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
+  <!-- Lightning bolt with document/search concept -->
+  <g>
+    <!-- Document background -->
+    <rect x="16" y="10" width="46" height="58" rx="4" fill="#E8F7FD" stroke="#00ADF0" stroke-width="2"/>
+    <line x1="24" y1="20" x2="50" y2="20" stroke="#00ADF0" stroke-width="2" stroke-linecap="round"/>
+    <line x1="24" y1="28" x2="54" y2="28" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="24" y1="36" x2="48" y2="36" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="24" y1="44" x2="52" y2="44" stroke="#B8BEC8" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Lightning bolt overlay -->
+    <path d="M52 30L42 48H48L46 60L56 42H50L52 30Z" fill="#B5E61D" stroke="#8FBF00" stroke-width="1.5" stroke-linejoin="round"/>
+    
+    <!-- Sparkle elements -->
+    <circle cx="68" cy="18" r="3" fill="#B5E61D"/>
+    <circle cx="72" cy="28" r="2" fill="#00ADF0"/>
+    <circle cx="64" cy="32" r="2" fill="#00ADF0"/>
+  </g>
+</svg>

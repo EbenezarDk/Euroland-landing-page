@@ -36,7 +36,7 @@ export function Footer({ sectionRef }: FooterProps) {
             height={38}
           />
           <nav className="footer__nav" aria-label="Footer">
-            <Link to="/share-graph">AI assistant</Link>
+            <Link to="/share-graph">AI Assistant</Link>
             <Link to="/interactive-analysis-tool">IR solutions</Link>
             <Link to="/artificial-intelligence">ESG solutions</Link>
           </nav>

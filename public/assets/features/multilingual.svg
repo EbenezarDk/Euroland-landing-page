@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
+  <!-- Globe with language symbols -->
+  <g>
+    <!-- Globe circle -->
+    <circle cx="44" cy="44" r="28" fill="#E8F7FD" stroke="#00ADF0" stroke-width="2.5"/>
+    
+    <!-- Longitude lines -->
+    <ellipse cx="44" cy="44" rx="12" ry="28" fill="none" stroke="#00ADF0" stroke-width="1.5"/>
+    <ellipse cx="44" cy="44" rx="20" ry="28" fill="none" stroke="#00ADF0" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Latitude lines -->
+    <line x1="16" y1="44" x2="72" y2="44" stroke="#00ADF0" stroke-width="1.5"/>
+    <line x1="20" y1="32" x2="68" y2="32" stroke="#00ADF0" stroke-width="1" opacity="0.5"/>
+    <line x1="20" y1="56" x2="68" y2="56" stroke="#00ADF0" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Language symbols -->
+    <text x="36" y="30" font-family="Satoshi, sans-serif" font-size="12" fill="#B5E61D" font-weight="700">A</text>
+    <text x="50" y="30" font-family="Satoshi, sans-serif" font-size="12" fill="#00ADF0" font-weight="700">‡</text>
+    <text x="34" y="50" font-family="Satoshi, sans-serif" font-size="12" fill="#00ADF0" font-weight="700">9</text>
+    <text x="50" y="50" font-family="Satoshi, sans-serif" font-size="12" fill="#B5E61D" font-weight="700">-</text>
+    <text x="40" y="62" font-family="Satoshi, sans-serif" font-size="12" fill="#00ADF0" font-weight="700">å</text>
+  </g>
+</svg>

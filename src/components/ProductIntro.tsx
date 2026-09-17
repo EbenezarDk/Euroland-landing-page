@@ -25,11 +25,13 @@ export function ProductIntro({ product }: ProductIntroProps) {
         <h2 className="product-intro__heading" id="product-intro-heading">
           {product.introHeading}
         </h2>
-        <div className="product-intro__copy">
-          {product.description.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
+        {product.description.length > 0 ? (
+          <div className="product-intro__copy">
+            {product.description.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   )

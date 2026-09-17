@@ -41,6 +41,13 @@ export function FloatingPills({
               className={`hero__pill${active ? ' hero__pill--active' : ''}`}
               to={hash ? { pathname: pill.to, hash } : pill.to}
               tabIndex={isHidden ? -1 : 0}
+              onClick={() => {
+                // Same-route /#hero click is a no-op for the router — force top scroll.
+                if (hash === 'hero' && window.location.pathname === pill.to) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                  window.dispatchEvent(new Event('scroll'))
+                }
+              }}
             >
               {pill.label}
             </Link>

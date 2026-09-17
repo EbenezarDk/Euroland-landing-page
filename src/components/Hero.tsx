@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import { KineticTextAnimate } from './KineticTextAnimate'
+import { TextAnimate } from './TextAnimate'
 
 type HeroProps = {
   sectionRef: RefObject<HTMLElement | null>
@@ -34,69 +34,45 @@ export function Hero({
 
       <div className="hero__content" ref={contentRef}>
         {textReady ? (
-          <KineticTextAnimate
+          <TextAnimate
             as="h1"
             className="hero__title"
             data-hero="title"
-            text={"TELL YOUR\nEQUITY STORY"}
+            animation="fadeIn"
+            by="line"
             startOnView={false}
             once
             accessible={false}
-            duration={0.525}
-          />
+            duration={0.45}
+          >
+            TELL YOUR EQUITY STORY
+          </TextAnimate>
         ) : (
           <h1 className="hero__title" data-hero="title" aria-hidden style={{ opacity: 0 }}>
             TELL YOUR EQUITY STORY
           </h1>
         )}
+
         {textReady ? (
-          <KineticTextAnimate
+          <TextAnimate
             as="p"
             className="hero__subtitle"
             data-hero="subtitle"
-            text="ENGAGE INVESTORS"
+            animation="fadeIn"
+            by="line"
             startOnView={false}
             once
             accessible={false}
-            duration={0.425}
-            delay={0.06}
-          />
+            duration={0.4}
+            delay={0.12}
+          >
+            ENGAGE INVESTORS
+          </TextAnimate>
         ) : (
           <p className="hero__subtitle" data-hero="subtitle" aria-hidden style={{ opacity: 0 }}>
             ENGAGE INVESTORS
           </p>
         )}
-        <div className="hero__desc" data-hero="desc" style={textReady ? undefined : { opacity: 0 }}>
-          {textReady ? (
-            <>
-              <KineticTextAnimate
-                as="p"
-                text="Combining Best Practice IR Solutions with state-of-the-art financial technology."
-                startOnView={false}
-                once
-                accessible={false}
-                duration={1.05}
-              />
-              <KineticTextAnimate
-                as="p"
-                text="Euroland IR creates IR Solutions that increase Investor Engagement."
-                startOnView={false}
-                once
-                accessible={false}
-                duration={1.05}
-                delay={0.06}
-              />
-            </>
-          ) : (
-            <>
-              <p>
-                Combining Best Practice IR Solutions with state-of-the-art financial
-                technology.
-              </p>
-              <p>Euroland IR creates IR Solutions that increase Investor Engagement.</p>
-            </>
-          )}
-        </div>
 
         <a
           className="hero__cta"
@@ -104,7 +80,7 @@ export function Hero({
           data-hero="cta"
           style={textReady ? undefined : { opacity: 0 }}
         >
-          Get a call back
+          Let's Talk
           <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
         </a>
       </div>

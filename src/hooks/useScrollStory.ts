@@ -32,9 +32,6 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
 
     const ctx = gsap.context(() => {
       const {
-        heroRef,
-        heroContentRef,
-        heroPillsRef,
         aboutRef,
         aboutCardsRef,
         enquiryRef,
@@ -43,9 +40,6 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
         footerRef,
       } = refs
 
-      const hero = heroRef.current
-      const heroContent = heroContentRef.current
-      const heroPills = heroPillsRef.current
       const about = aboutRef.current
       const aboutCards = aboutCardsRef.current
       const enquiry = enquiryRef.current
@@ -53,28 +47,14 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
       const enquiryWave = enquiryWaveRef.current
       const footer = footerRef.current
 
-      if (!hero || !heroContent) return
-
       const reduced = prefersReducedMotion()
       const compact = isCompactViewport()
 
-      const title = heroContent.querySelector('[data-hero="title"]')
-      const subtitle = heroContent.querySelector('[data-hero="subtitle"]')
-      const desc = heroContent.querySelector('[data-hero="desc"]')
       const aboutCopy = about?.querySelector('[data-animate="about-copy"]')
       const aboutTexts = about?.querySelectorAll<HTMLElement>('.about__text')
       const cards = aboutCards?.querySelectorAll('[data-card]')
       const aboutLogos = about?.querySelector<HTMLElement>('.about__logos')
       const enquiryHeader = enquiry?.querySelector('[data-animate="enquiry-header"]')
-
-      // Title/subtitle/desc must exist (kinetic or placeholder), but GSAP must NOT
-      // tween those nodes — Motion owns their opacity/filter. Scrub the wrapper only.
-      if (!title || !subtitle || !desc) return
-
-      gsap.set(heroContent, { clearProps: 'filter' })
-      gsap.set(heroContent, { opacity: 1, y: 0 })
-      // Floating pills keep CSS centering — don't let GSAP overwrite transform
-      if (heroPills) gsap.set(heroPills, { opacity: 1, clearProps: 'x,y' })
 
       if (reduced) {
         if (aboutCopy && about) {
@@ -93,32 +73,6 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
         }
         return
       }
-
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: hero,
-          start: 'top top',
-          end: compact ? '+=70%' : '+=120%',
-          scrub: compact ? 0.45 : 0.65,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-
-      heroTl.fromTo(
-        heroContent,
-        { y: 0, opacity: 1, filter: 'blur(0px)' },
-        {
-          y: compact ? -28 : -56,
-          opacity: 0,
-          filter: compact ? 'blur(0px)' : 'blur(6px)',
-          ease: 'none',
-        },
-        0,
-      )
-      // Floating pills stay fixed — do not scrub them away
 
       // About: scrubbed reveal while the section scrolls through the viewport
       if (aboutCopy && about) {
@@ -282,7 +236,6 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
       }
     })
 
-    // Recalculate after pin + unlock so scrolling distances are correct
     requestAnimationFrame(() => ScrollTrigger.refresh())
 
     const onResize = () => ScrollTrigger.refresh()

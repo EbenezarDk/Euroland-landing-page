@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent, type RefObject } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent, type RefObject } from 'react'
 import { COUNTRY_DIAL_CODES } from '../data/countryDialCodes'
 
 type EnquiryProps = {
@@ -7,20 +7,55 @@ type EnquiryProps = {
   waveRef: RefObject<HTMLImageElement | null>
 }
 
+function normalizeDialCode(value: string) {
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  const digits = trimmed.replace(/[^\d+]/g, '')
+  if (!digits) return ''
+  return digits.startsWith('+') ? digits : `+${digits.replace(/^\+*/, '')}`
+}
+
 export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
   const [submitted, setSubmitted] = useState(false)
+  const [dialCode, setDialCode] = useState('+91')
   const [selectedCountry, setSelectedCountry] = useState('India')
   const [dialOpen, setDialOpen] = useState(false)
+  const [dialSearch, setDialSearch] = useState('')
   const dialRef = useRef<HTMLDivElement>(null)
+  const dialSearchRef = useRef<HTMLInputElement>(null)
   const listId = useId()
+  const searchId = useId()
 
   const selected =
     COUNTRY_DIAL_CODES.find((country) => country.name === selectedCountry) ??
+    COUNTRY_DIAL_CODES.find((country) => country.code === normalizeDialCode(dialCode)) ??
     COUNTRY_DIAL_CODES.find((country) => country.name === 'India') ??
     COUNTRY_DIAL_CODES[0]
 
+  const orderedCountries = useMemo(() => {
+    const query = dialSearch.trim().toLowerCase()
+    const matches = (country: (typeof COUNTRY_DIAL_CODES)[number]) => {
+      if (!query) return true
+      const code = country.code.toLowerCase()
+      const name = country.name.toLowerCase()
+      return code.includes(query) || name.includes(query)
+    }
+
+    const selectedFirst = COUNTRY_DIAL_CODES.filter(
+      (country) => country.name === selected.name && matches(country),
+    )
+    const rest = COUNTRY_DIAL_CODES.filter(
+      (country) => country.name !== selected.name && matches(country),
+    )
+
+    return [...selectedFirst, ...rest]
+  }, [dialSearch, selected.name])
+
   useEffect(() => {
-    if (!dialOpen) return
+    if (!dialOpen) {
+      setDialSearch('')
+      return
+    }
 
     const onPointerDown = (event: PointerEvent) => {
       if (!dialRef.current?.contains(event.target as Node)) {
@@ -39,6 +74,24 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
       document.removeEventListener('keydown', onKeyDown)
     }
   }, [dialOpen])
+
+  function handleDialChange(value: string) {
+    setDialCode(value)
+    setDialOpen(true)
+
+    const normalized = normalizeDialCode(value)
+    const match = COUNTRY_DIAL_CODES.find((country) => country.code === normalized)
+    if (match) setSelectedCountry(match.name)
+  }
+
+  function openDialMenu(focusSearch = false) {
+    setDialOpen(true)
+    if (focusSearch) {
+      requestAnimationFrame(() => {
+        dialSearchRef.current?.focus()
+      })
+    }
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -62,14 +115,14 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
 
       <div className="enquiry__inner">
         <div className="enquiry__header" data-animate="enquiry-header">
-          <p className="enquiry__eyebrow">Book a Service</p>
+          <p className="enquiry__eyebrow">Contact Us</p>
           <h2 className="enquiry__heading" id="enquiry-heading">
             Let us know how we can help. We will reach out to you.
           </h2>
         </div>
 
         <form className="enquiry__form" ref={formRef} onSubmit={handleSubmit}>
-          <input type="hidden" name="countryCode" value={selected.code} />
+          <input type="hidden" name="countryCode" value={normalizeDialCode(dialCode) || selected.code} />
           <input type="hidden" name="countryName" value={selected.name} />
           <div className="enquiry__fields">
             <div className="enquiry__row">
@@ -124,46 +177,95 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                     className={`field__dial${dialOpen ? ' field__dial--open' : ''}`}
                     ref={dialRef}
                   >
-                    <button
-                      type="button"
-                      className="field__dial-trigger"
-                      aria-label="Country code"
-                      aria-haspopup="listbox"
-                      aria-expanded={dialOpen}
-                      aria-controls={listId}
-                      onClick={() => setDialOpen((open) => !open)}
-                    >
-                      <span className="field__dial-code">{selected.code}</span>
-                      <img src="/assets/caret-down.svg" alt="" aria-hidden />
-                    </button>
+                    <div className="field__dial-trigger">
+                      <input
+                        className="field__dial-input"
+                        type="text"
+                        inputMode="tel"
+                        autoComplete="tel-country-code"
+                        aria-label="Country code"
+                        aria-haspopup="listbox"
+                        aria-expanded={dialOpen}
+                        aria-controls={listId}
+                        value={dialCode}
+                        onChange={(event) => handleDialChange(event.target.value)}
+                        onFocus={() => openDialMenu(false)}
+                        onBlur={() => {
+                          const normalized = normalizeDialCode(dialCode)
+                          if (normalized) setDialCode(normalized)
+                        }}
+                        placeholder="+91"
+                      />
+                      <button
+                        type="button"
+                        className="field__dial-caret"
+                        aria-label={dialOpen ? 'Hide country codes' : 'Show country codes'}
+                        tabIndex={-1}
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => {
+                          if (dialOpen) {
+                            setDialOpen(false)
+                          } else {
+                            openDialMenu(true)
+                          }
+                        }}
+                      >
+                        <img src="/assets/caret-down.svg" alt="" aria-hidden />
+                      </button>
+                    </div>
 
                     {dialOpen ? (
-                      <ul
-                        className="field__dial-menu"
-                        id={listId}
-                        role="listbox"
-                        aria-label="Country codes"
-                      >
-                        {COUNTRY_DIAL_CODES.map((country) => {
-                          const active = country.name === selected.name
-                          return (
-                            <li key={`${country.code}-${country.name}`} role="option">
-                              <button
-                                type="button"
-                                className={`field__dial-option${active ? ' field__dial-option--active' : ''}`}
-                                aria-selected={active}
-                                onClick={() => {
-                                  setSelectedCountry(country.name)
-                                  setDialOpen(false)
-                                }}
-                              >
-                                <span className="field__dial-option-code">{country.code}</span>
-                                <span className="field__dial-option-name">{country.name}</span>
-                              </button>
+                      <div className="field__dial-menu" id={listId}>
+                        <div className="field__dial-search">
+                          <label className="visually-hidden" htmlFor={searchId}>
+                            Search country or code
+                          </label>
+                          <input
+                            ref={dialSearchRef}
+                            id={searchId}
+                            className="field__dial-search-input"
+                            type="search"
+                            value={dialSearch}
+                            onChange={(event) => setDialSearch(event.target.value)}
+                            onMouseDown={(event) => event.stopPropagation()}
+                            placeholder="Search country or code"
+                            autoComplete="off"
+                          />
+                        </div>
+                        <ul
+                          className="field__dial-list"
+                          role="listbox"
+                          aria-label="Country codes"
+                        >
+                          {orderedCountries.length > 0 ? (
+                            orderedCountries.map((country) => {
+                              const active = country.name === selected.name
+                              return (
+                                <li key={`${country.code}-${country.name}`} role="option">
+                                  <button
+                                    type="button"
+                                    className={`field__dial-option${active ? ' field__dial-option--active' : ''}`}
+                                    aria-selected={active}
+                                    onMouseDown={(event) => event.preventDefault()}
+                                    onClick={() => {
+                                      setDialCode(country.code)
+                                      setSelectedCountry(country.name)
+                                      setDialOpen(false)
+                                    }}
+                                  >
+                                    <span className="field__dial-option-code">{country.code}</span>
+                                    <span className="field__dial-option-name">{country.name}</span>
+                                  </button>
+                                </li>
+                              )
+                            })
+                          ) : (
+                            <li className="field__dial-empty" role="presentation">
+                              No matching country
                             </li>
-                          )
-                        })}
-                      </ul>
+                          )}
+                        </ul>
+                      </div>
                     ) : null}
                   </div>
                   <input

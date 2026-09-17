@@ -80,6 +80,12 @@ export function LandingPage() {
     if (!id) return
 
     const scrollToHash = () => {
+      if (id === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.dispatchEvent(new Event('scroll'))
+        return
+      }
+
       const target = document.getElementById(id)
       if (!(target instanceof HTMLElement)) return
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })

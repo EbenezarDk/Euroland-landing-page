@@ -3,13 +3,14 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FAQS } from '../data/faqs'
+import { scrubRevealIn } from '../hooks/useProductScrollReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function Faq() {
   const sectionRef = useRef<HTMLElement>(null)
   const baseId = useId()
-  const [openId, setOpenId] = useState<string | null>(FAQS[1]?.id ?? null)
+  const [openId, setOpenId] = useState<string | null>(FAQS[0]?.id ?? null)
   const reduceMotion = useReducedMotion()
 
   const panelTransition = reduceMotion
@@ -21,85 +22,44 @@ export function Faq() {
     if (!section) return
 
     const header = section.querySelector<HTMLElement>('.faq__header')
-    const items = section.querySelectorAll<HTMLElement>('.faq__item')
-    const cta = section.querySelector<HTMLElement>('.faq__cta')
+    const items = Array.from(section.querySelectorAll<HTMLElement>('.faq__item'))
     const compact = window.matchMedia('(max-width: 768px)').matches
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.from([header, ...items, cta].filter(Boolean), {
+        gsap.from([header, ...items].filter(Boolean), {
           opacity: 0,
-          duration: 0.4,
-          stagger: 0.06,
-          scrollTrigger: { trigger: section, start: 'top 80%' },
+          y: 12,
+          duration: 0.3,
+          stagger: 0.05,
+          scrollTrigger: { trigger: section, start: 'top 95%' },
         })
         return
       }
 
-      if (header) {
-        gsap.fromTo(
-          header,
-          { y: compact ? 40 : 64, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 88%',
-              end: 'top 42%',
-              scrub: compact ? 0.5 : 0.7,
-            },
-          },
-        )
-      }
+      // Per-element scrub: fully visible as soon as each block clears the bottom of the viewport
+      if (header) scrubRevealIn(header, { y: compact ? 18 : 28, compact })
 
-      if (items.length) {
-        items.forEach((item, index) => {
-          gsap.fromTo(
-            item,
-            { y: compact ? 40 : 56 + index * 10, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              ease: 'none',
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                end: 'top 28%',
-                scrub: compact ? 0.5 : 0.7,
-              },
-            },
-          )
+      items.forEach((item, index) => {
+        scrubRevealIn(item, {
+          y: compact ? 18 + index * 2 : 24 + index * 4,
+          compact,
         })
-      }
-
-      if (cta) {
-        gsap.fromTo(
-          cta,
-          { y: 28, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: cta,
-              start: 'top 94%',
-              end: 'top 68%',
-              scrub: 0.55,
-            },
-          },
-        )
-      }
+      })
     }, section)
 
     requestAnimationFrame(() => ScrollTrigger.refresh())
 
-    return () => ctx.revert()
+    const onResize = () => ScrollTrigger.refresh()
+    window.addEventListener('resize', onResize)
+    window.addEventListener('orientationchange', onResize)
+
+    return () => {
+      window.removeEventListener('resize', onResize)
+      window.removeEventListener('orientationchange', onResize)
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -112,7 +72,7 @@ export function Faq() {
       <div className="faq__shell">
         <header className="faq__header">
           <h2 className="faq__heading" id="faq-heading">
-            Frequently asked questions
+            Frequently Asked Questions
           </h2>
         </header>
 
@@ -163,16 +123,6 @@ export function Faq() {
             )
           })}
         </ul>
-
-        <p className="faq__cta">
-          Have any other questions?{' '}
-          <a className="faq__cta-link" href="#enquiry">
-            Contact Us
-            <span className="faq__cta-arrow" aria-hidden>
-              →
-            </span>
-          </a>
-        </p>
       </div>
     </section>
   )

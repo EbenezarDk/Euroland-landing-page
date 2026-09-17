@@ -12,7 +12,7 @@ export function ProductExplained({ product }: ProductExplainedProps) {
 
   useProductScrollReveal(sectionRef, {
     header: '.product-explained__heading',
-    items: '.product-explained__text, .product-explained__examples',
+    items: '.product-explained__text',
     media: '.product-explained__media',
   })
 
@@ -37,26 +37,6 @@ export function ProductExplained({ product }: ProductExplainedProps) {
               {paragraph}
             </p>
           ))}
-
-          {section.liveExamples?.length ? (
-            <div className="product-explained__examples">
-              <p className="product-explained__examples-label">Live Example</p>
-              <ul className="product-explained__logos" aria-label="Live examples">
-                {section.liveExamples.map((logo) => (
-                  <li key={logo.src} className="product-explained__logo">
-                    <img
-                      src={logo.src}
-                      alt={logo.alt}
-                      height={logo.height ?? 28}
-                      style={{ height: logo.height ?? 28 }}
-                      loading="lazy"
-                      draggable={false}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </div>
 
         <div className="product-explained__media">
@@ -65,7 +45,9 @@ export function ProductExplained({ product }: ProductExplainedProps) {
             alt={section.imageAlt}
             width={707}
             height={477}
+            sizes="(max-width: 1100px) 100vw, min(707px, 50vw)"
             loading="lazy"
+            decoding="async"
             draggable={false}
           />
         </div>

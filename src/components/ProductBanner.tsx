@@ -1,5 +1,5 @@
 import type { ProductContent } from '../data/products'
-import { KineticTextAnimate } from './KineticTextAnimate'
+import { TextAnimate } from './TextAnimate'
 
 type ProductBannerProps = {
   product: ProductContent
@@ -23,44 +23,23 @@ export function ProductBanner({ product }: ProductBannerProps) {
       <div className="hero__text-overlay" aria-hidden style={{ opacity: 0.5 }} />
 
       <div className="hero__content product-banner__content">
-        <p className="product-banner__eyebrow">{product.eyebrow}</p>
-        <KineticTextAnimate
+        <TextAnimate
           as="h1"
-          className="hero__title"
-          text={"TELL YOUR\nEQUITY STORY"}
+          className="hero__subtitle"
+          animation="fadeIn"
+          by="line"
           startOnView={false}
           once
           accessible={false}
-          duration={0.525}
-        />
-        <KineticTextAnimate
-          as="p"
-          className="hero__subtitle hero__subtitle--desktop"
-          text={product.subtitle}
-          startOnView={false}
-          once
-          accessible={false}
-          duration={0.425}
-          delay={0.06}
-        />
-        <p className="hero__subtitle hero__subtitle--mobile" aria-hidden>
-          ENGAGE INVESTORS
-        </p>
-        <p className="product-banner__cta">
-          <a
-            href="#product-details"
-            onClick={() => {
-              // Re-sample sticky chrome after the hash scroll settles
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  window.dispatchEvent(new Event('scroll'))
-                })
-              })
-            }}
-          >
-            Know more about {product.label}
-          </a>
-        </p>
+          duration={0.4}
+        >
+          {product.subtitle}
+        </TextAnimate>
+
+        <a className="hero__cta" href="#enquiry" data-hero="cta">
+          Let's Talk
+          <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
+        </a>
       </div>
     </section>
   )

@@ -1,9 +1,15 @@
 import { useEffect, type RefObject } from 'react'
 import { Link } from 'react-router-dom'
 
-const CLIENT_LOGOS = Array.from({ length: 61 }, (_, i) => ({
+const CLIENT_LOGOS_SET_1 = Array.from({ length: 31 }, (_, i) => ({
   src: `/assets/clients/logo-${String(i + 1).padStart(3, '0')}.png`,
   alt: `Client logo ${i + 1}`,
+  height: 42,
+}))
+
+const CLIENT_LOGOS_SET_2 = Array.from({ length: 30 }, (_, i) => ({
+  src: `/assets/clients/set-2/logo-${String(i + 1).padStart(3, '0')}.png`,
+  alt: `Client logo ${i + 32}`,
   height: 42,
 }))
 
@@ -14,8 +20,8 @@ const PRODUCT_ENTRIES = [
     title: 'The IR team just got bigger.',
     description:
       'Let AI handle the routine so you can focus on strategy, relationships and what matters most.',
-    image: '/assets/products/share-graph-card.jpg',
-    imageAlt: 'Financial charts on a laptop screen',
+    image: '/assets/products/ai-assistant-card.png',
+    imageAlt: 'Stacked IR service cubes with AI highlighted',
   },
   {
     path: '/interactive-analysis-tool',
@@ -28,12 +34,12 @@ const PRODUCT_ENTRIES = [
   },
   {
     path: '/artificial-intelligence',
-    tag: 'SUSTAINABILITY SOLUTIONS',
+    tag: 'ESG SOLUTIONS',
     title: 'Turn ESG into a compelling investor story.',
     description:
       'Present measurable performance and connect the numbers with your sustainability strategy, targets and commitments.',
-    image: '/assets/products/ai-card.jpg',
-    imageAlt: 'Abstract artificial intelligence visualization',
+    image: '/assets/products/esg-card.jpg',
+    imageAlt: 'ESG pillars on a glowing Earth sustainability path',
   },
 ] as const
 
@@ -238,7 +244,7 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
   const renderLogoRow = (
     rowKey: string,
     direction: 'rtl' | 'ltr',
-    logos: typeof CLIENT_LOGOS,
+    logos: typeof CLIENT_LOGOS_SET_1,
   ) => (
     <div className="about__logos-row">
       <div
@@ -332,13 +338,13 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
           ref={logosRef}
           aria-label="Trusted by leading companies"
         >
-          {renderLogoRow('top', 'rtl', CLIENT_LOGOS)}
-          {renderLogoRow('bottom', 'ltr', CLIENT_LOGOS)}
+          {renderLogoRow('top', 'rtl', CLIENT_LOGOS_SET_1)}
+          {renderLogoRow('bottom', 'ltr', CLIENT_LOGOS_SET_2)}
         </div>
 
         <div className="about__solutions">
           <div className="about__solutions-copy">
-            <h2 className="about__solutions-heading">Our solution</h2>
+            <h2 className="about__solutions-heading">Our solutions</h2>
             <p className="about__solutions-text">
               Explore Euroland IR tools designed to present your equity story
               with clarity — from interactive share performance and self-serve

@@ -6,6 +6,7 @@ import { FloatingPills } from '../components/FloatingPills'
 import { ProductBanner } from '../components/ProductBanner'
 import { ProductIntro } from '../components/ProductIntro'
 import { ProductFeatures } from '../components/ProductFeatures'
+import { ProductLiveExamples } from '../components/ProductLiveExamples'
 import { ProductExplained } from '../components/ProductExplained'
 import { Faq } from '../components/Faq'
 import { Enquiry } from '../components/Enquiry'
@@ -77,6 +78,24 @@ export function ProductPage() {
       <section id="product-details" ref={introRef} className="product-page__body">
         <ProductIntro product={product} />
         <ProductFeatures product={product} />
+        <ProductLiveExamples product={product} />
+        {product.secondaryFeatures ? (
+          <>
+            <ProductFeatures
+              product={product}
+              section={product.secondaryFeatures}
+              headingId="product-secondary-features-heading"
+            />
+            {product.secondaryLiveExamples?.length ? (
+              <ProductLiveExamples
+                product={product}
+                headingId="product-secondary-live-examples-heading"
+                logos={product.secondaryLiveExamples}
+                static
+              />
+            ) : null}
+          </>
+        ) : null}
         <ProductExplained product={product} />
       </section>
 
