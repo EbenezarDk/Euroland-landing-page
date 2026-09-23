@@ -225,11 +225,15 @@ export function useScrollStory(refs: ScrollStoryRefs, enabled = true) {
             opacity: 1,
             stagger: 0.06,
             ease: 'none',
+            immediateRender: false,
+            force3D: true,
             scrollTrigger: {
               trigger: footer,
               start: 'top 94%',
               end: 'top 75%',
-              scrub: 0.4,
+              // Boolean scrub tracks scroll 1:1 — smoothed scrub (0.4) kept
+              // interpolating after scroll stopped and felt like footer jitter.
+              scrub: true,
             },
           },
         )

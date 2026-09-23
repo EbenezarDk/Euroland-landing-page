@@ -1,6 +1,6 @@
 export const NAV_ITEMS = [
   { label: 'About Us', to: '/', hash: 'hero', match: '/' },
-  { label: 'AI Assistant', to: '/share-graph', match: '/share-graph' },
+  { label: 'Purpose-Built AI for IR', to: '/share-graph', match: '/share-graph' },
   {
     label: 'IR solutions',
     to: '/interactive-analysis-tool',

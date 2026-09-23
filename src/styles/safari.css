@@ -1,0 +1,32 @@
+.safari {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.safari__screen {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 0 0 11px 11px;
+}
+
+.safari__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.safari__chrome {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+}

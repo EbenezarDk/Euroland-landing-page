@@ -9,6 +9,12 @@ type ProductMediaProps = {
   product: ProductContent
 }
 
+type ChromeInsets = {
+  top: number
+  bottom: number
+  band: number
+}
+
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
@@ -17,13 +23,48 @@ function isCompactViewport() {
   return window.matchMedia('(max-width: 768px)').matches
 }
 
-/** Sticky header height — excluded from the product media "content viewport". */
-function getChromeHeight() {
+function readCssPx(el: Element, prop: string, fallback: number) {
+  const raw = getComputedStyle(el).getPropertyValue(prop).trim()
+  const n = parseFloat(raw)
+  return Number.isFinite(n) ? n : fallback
+}
+
+/** Top (header + subtabs) and bottom (floating pills) chrome around the video stack. */
+function getChromeInsets(options?: { forceDockReserve?: boolean }): ChromeInsets {
   const header = document.querySelector('.hero__header')
-  if (header instanceof HTMLElement) {
-    return Math.round(header.getBoundingClientRect().height)
+  let top =
+    header instanceof HTMLElement
+      ? Math.round(header.getBoundingClientRect().height)
+      : window.matchMedia('(max-width: 1100px)').matches
+        ? 80
+        : 100
+
+  const subtabs = document.querySelector('.product-subtabs')
+  if (subtabs instanceof HTMLElement) {
+    top += Math.round(subtabs.getBoundingClientRect().height)
   }
-  return window.matchMedia('(max-width: 1100px)').matches ? 80 : 100
+
+  let bottom = 0
+  const dock = document.querySelector('.hero__pills-dock')
+  if (dock instanceof HTMLElement && getComputedStyle(dock).display !== 'none') {
+    const dockHidden = dock.classList.contains('hero__pills-dock--hidden')
+    // Pin distance must stay stable when the dock hides over the footer.
+    if (options?.forceDockReserve || !dockHidden) {
+      const dockHeight = Math.max(Math.round(dock.getBoundingClientRect().height), 58)
+      const dockBottom = readCssPx(document.documentElement, '--floating-dock-bottom', 40)
+      bottom = dockHeight + Math.round(dockBottom)
+    }
+  }
+
+  const band = Math.max(window.innerHeight - top - bottom, 280)
+  return { top, bottom, band }
+}
+
+function applyChromeVars(root: HTMLElement, chrome: ChromeInsets) {
+  root.style.setProperty('--product-chrome-top', `${chrome.top}px`)
+  root.style.setProperty('--product-chrome-bottom', `${chrome.bottom}px`)
+  root.style.setProperty('--product-chrome-height', `${chrome.top}px`)
+  root.style.setProperty('--product-media-band', `${chrome.band}px`)
 }
 
 export function ProductMedia({ product }: ProductMediaProps) {
@@ -33,8 +74,7 @@ export function ProductMedia({ product }: ProductMediaProps) {
   const mediaRef = useRef<HTMLVideoElement | HTMLImageElement>(null)
   const isImage = product.mediaType === 'image'
 
-  // Pin below the sticky header and expand into the content viewport
-  // (full window minus header). Further scroll releases into Book a Service.
+  // Pin in the band between sticky chrome and floating pills; expand to fill that stack.
   useLayoutEffect(() => {
     const root = rootRef.current
     const stage = stageRef.current
@@ -43,102 +83,122 @@ export function ProductMedia({ product }: ProductMediaProps) {
     if (!root || !stage || !frame || !media) return
 
     const ctx = gsap.context(() => {
+      const syncViewport = () => {
+        const chrome = getChromeInsets()
+        applyChromeVars(root, chrome)
+        return chrome
+      }
+
       if (prefersReducedMotion()) {
+        const chrome = syncViewport()
         gsap.set([frame, media, stage], { clearProps: 'all' })
+        gsap.set(frame, {
+          width: '100%',
+          height: chrome.band,
+          borderRadius: 0,
+        })
         return
       }
 
       const compact = isCompactViewport()
-      const startRadius = compact ? '20px' : '32px'
+      const startRadius = compact ? '16px' : '24px'
 
-      const syncViewport = () => {
-        const chrome = getChromeHeight()
-        root.style.setProperty('--product-chrome-height', `${chrome}px`)
-        return chrome
-      }
-
-      const measureCard = () => {
+      const measurePort = () => {
         const chrome = syncViewport()
-        const contentH = Math.max(window.innerHeight - chrome, 320)
-        const sidePad = compact ? 32 : 80
-        const stageWidth = Math.max(stage.clientWidth - sidePad * 2, 280)
-        const targetWidth = Math.min(1240, stageWidth)
-        const ratio = compact ? 4 / 3 : 16 / 9
-        const maxHeight = compact ? contentH * 0.62 : Math.min(contentH * 0.78, 720)
-        const height = Math.min(targetWidth / ratio, maxHeight)
-        const width = height * ratio
-        return { width, height, chrome, contentH }
+        const width = stage.clientWidth || window.innerWidth
+        const height = chrome.band
+        // Slightly inset start so one scroll attaches flush to the port
+        const inset = compact ? 0.92 : 0.9
+        return {
+          chrome,
+          portW: width,
+          portH: height,
+          startW: width * inset,
+          startH: height * inset,
+        }
       }
 
-      const card = measureCard()
+      const port = measurePort()
 
       gsap.set(stage, { paddingTop: 0 })
       gsap.set(frame, {
-        width: card.width,
-        height: card.height,
+        width: port.startW,
+        height: port.startH,
         borderRadius: startRadius,
-        scale: 0.94,
-        opacity: 0.85,
+        scale: 1,
+        opacity: 1,
       })
       gsap.set(media, { clearProps: 'transform', scale: 1 })
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: root,
-          start: () => `top ${getChromeHeight()}px`,
-          end: compact ? '+=160%' : '+=200%',
-          scrub: compact ? 0.55 : 0.7,
+          start: () => `top ${getChromeInsets({ forceDockReserve: true }).top}px`,
+          // One viewport of scroll: attach to port, then release.
+          // Always reserve dock space so pin-spacer height never jumps when
+          // floating pills hide over the footer.
+          end: () => `+=${Math.round(getChromeInsets({ forceDockReserve: true }).band)}`,
+          scrub: compact ? 0.35 : 0.4,
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: () => {
-            const next = measureCard()
+            const next = measurePort()
             if (tl.progress() < 0.2) {
-              gsap.set(frame, { width: next.width, height: next.height })
+              gsap.set(frame, {
+                width: next.startW,
+                height: next.startH,
+              })
             }
           },
         },
       })
 
+      // Single motion: attach frame to the full video port
       tl.to(
         frame,
         {
-          scale: 1,
-          opacity: 1,
-          duration: 0.22,
+          width: () => stage.clientWidth || window.innerWidth,
+          height: () => getChromeInsets().band,
+          borderRadius: '0px',
+          duration: 0.7,
           ease: 'none',
         },
         0,
       )
 
-      tl.to(
-        frame,
-        {
-          width: () => stage.clientWidth || window.innerWidth,
-          height: () => {
-            const chrome = getChromeHeight()
-            return Math.max(window.innerHeight - chrome, stage.clientHeight)
-          },
-          borderRadius: '0px',
-          scale: 1,
-          opacity: 1,
-          duration: 0.55,
-          ease: 'none',
-        },
-        0.22,
-      )
-
-      tl.to({}, { duration: 0.23 })
+      // Brief hold while attached, then pin ends
+      tl.to({}, { duration: 0.3 })
     }, rootRef)
 
+    applyChromeVars(root, getChromeInsets())
     requestAnimationFrame(() => ScrollTrigger.refresh())
 
-    const onResize = () => ScrollTrigger.refresh()
+    const onResize = () => {
+      applyChromeVars(root, getChromeInsets())
+      ScrollTrigger.refresh()
+    }
     window.addEventListener('resize', onResize)
+
+    // Pills dock show/hide changes bottom chrome CSS vars for the live band.
+    // Do NOT ScrollTrigger.refresh() here: refreshing after the pin has released
+    // rewrites pin-spacer height (band grows when pills hide), which jumps the
+    // document and causes the enquiry→footer scroll glitch.
+    const dock = document.querySelector('.hero__pills-dock')
+    const mo =
+      dock instanceof HTMLElement
+        ? new MutationObserver(() => {
+            applyChromeVars(root, getChromeInsets())
+          })
+        : null
+    if (dock instanceof HTMLElement && mo) {
+      mo.observe(dock, { attributes: true, attributeFilter: ['class', 'style'] })
+    }
 
     return () => {
       window.removeEventListener('resize', onResize)
+      mo?.disconnect()
       ctx.revert()
     }
   }, [product.slug, isImage])

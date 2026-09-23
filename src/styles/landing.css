@@ -545,7 +545,7 @@
 .about__eyebrow,
 .enquiry__eyebrow {
   font-family: var(--font-sans);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
   color: var(--color-cyan);
   line-height: 1.2;
@@ -553,7 +553,7 @@
 }
 
 .about__heading {
-  font-size: clamp(28px, 2.7vw, 52px);
+  font-size: 24px;
   font-weight: 300;
   line-height: 1.15;
   color: var(--color-ink);
@@ -586,7 +586,7 @@
 }
 
 .about__card-title {
-  font-size: 21px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.2;
@@ -681,7 +681,7 @@
 
 .about__solutions-heading {
   font-family: var(--font-sans);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--color-cyan);
@@ -828,7 +828,7 @@
 
 .faq__heading {
   font-family: var(--font-sans);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--color-cyan);
@@ -1070,7 +1070,7 @@
 }
 
 .enquiry__heading {
-  font-size: clamp(28px, 2.7vw, 52px);
+  font-size: 24px;
   font-weight: 300;
   line-height: 1.15;
   color: var(--color-ink);
@@ -1537,10 +1537,13 @@
 /* ─── Footer ─── */
 .footer {
   position: relative;
-  z-index: 1;
+  /* Paint above preceding white sections (enquiry/faq use z-index: 2) so
+     scrubbed footer children never flicker underneath during reveal. */
+  z-index: 3;
   background: var(--color-navy);
   color: var(--color-white);
   padding: 80px var(--page-pad) 32px;
+  isolation: isolate;
 }
 
 .footer__top {
@@ -1713,7 +1716,7 @@
   }
 
   .hero__mobile-menu {
-    display: block;
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -1723,14 +1726,6 @@
     background: rgba(0, 2, 21, 0.96);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 24px 48px rgba(0, 2, 21, 0.35);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-8px);
-    transition:
-      opacity 0.25s var(--ease-out),
-      visibility 0.25s var(--ease-out),
-      transform 0.25s var(--ease-out);
   }
 
   .hero__header--light .hero__mobile-menu {
@@ -1740,10 +1735,7 @@
   }
 
   .hero__mobile-menu--open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0);
+    display: block;
   }
 
   .hero__mobile-nav {

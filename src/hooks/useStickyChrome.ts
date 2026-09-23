@@ -51,21 +51,25 @@ export function useStickyChrome({
       const headerOffset =
         header instanceof HTMLElement ? header.getBoundingClientRect().height : 100
 
-      setIsLight(aboutTop <= headerOffset + 8 && footerTop > headerOffset + 40)
-
+      const nextLight = aboutTop <= headerOffset + 8 && footerTop > headerOffset + 40
       const pills = pillsRef?.current
       const pillsRect = pills?.getBoundingClientRect()
       const pillsSampleY = pillsRect
         ? pillsRect.top + pillsRect.height / 2
         : window.innerHeight - 50
-      setIsPillsLight(aboutTop <= pillsSampleY && footerTop > pillsSampleY)
+      const nextPillsLight = aboutTop <= pillsSampleY && footerTop > pillsSampleY
 
       // Dim once the hero/banner has left and content sections enter view.
-      setIsPastHero(aboutTop < window.innerHeight - 24)
+      const nextPastHero = aboutTop < window.innerHeight - 24
 
       // Hide as soon as the footer overlaps the floating pills band.
       const pillsBottom = pillsRect?.bottom ?? window.innerHeight - 80
-      setIsPillsHidden(footerTop <= pillsBottom)
+      const nextPillsHidden = footerTop <= pillsBottom
+
+      setIsLight((prev) => (prev === nextLight ? prev : nextLight))
+      setIsPillsLight((prev) => (prev === nextPillsLight ? prev : nextPillsLight))
+      setIsPastHero((prev) => (prev === nextPastHero ? prev : nextPastHero))
+      setIsPillsHidden((prev) => (prev === nextPillsHidden ? prev : nextPillsHidden))
     }
 
     update()

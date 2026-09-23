@@ -16,7 +16,7 @@ const CLIENT_LOGOS_SET_2 = Array.from({ length: 30 }, (_, i) => ({
 const PRODUCT_ENTRIES = [
   {
     path: '/share-graph',
-    tag: 'AI ASSISTANT',
+    tag: 'Purpose-Built AI for IR',
     title: 'The IR team just got bigger.',
     description:
       'Let AI handle the routine so you can focus on strategy, relationships and what matters most.',

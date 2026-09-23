@@ -21,6 +21,38 @@ type LiveExamplesMarqueeProps = {
   label?: string
 }
 
+function LiveExampleLogo({
+  logo,
+  alt,
+}: {
+  logo: ProductLiveExample
+  alt: string
+}) {
+  const img = (
+    <img
+      src={logo.src}
+      alt={alt}
+      height={logo.height ?? 36}
+      style={{ height: logo.height ?? 36 }}
+      loading="lazy"
+      draggable={false}
+    />
+  )
+
+  if (!logo.href) return img
+
+  return (
+    <a
+      className="product-explained__logo-link"
+      href={logo.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {img}
+    </a>
+  )
+}
+
 function LiveExamplesMarquee({
   logos,
   direction = 'rtl',
@@ -191,14 +223,7 @@ function LiveExamplesMarquee({
           >
             {logos.map((logo, index) => (
               <li key={`${copy}-${index}-${logo.src}`} className="product-explained__logo">
-                <img
-                  src={logo.src}
-                  alt={copy === 0 ? logo.alt : ''}
-                  height={logo.height ?? 36}
-                  style={{ height: logo.height ?? 36 }}
-                  loading="lazy"
-                  draggable={false}
-                />
+                <LiveExampleLogo logo={logo} alt={copy === 0 ? logo.alt : ''} />
               </li>
             ))}
           </ul>
@@ -238,14 +263,7 @@ export function ProductLiveExamples({
           <ul className="product-explained__logos product-explained__logos--static" aria-label="Live examples">
             {logos.map((logo) => (
               <li key={logo.src} className="product-explained__logo">
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  height={logo.height ?? 36}
-                  style={{ height: logo.height ?? 36 }}
-                  loading="lazy"
-                  draggable={false}
-                />
+                <LiveExampleLogo logo={logo} alt={logo.alt} />
               </li>
             ))}
           </ul>
