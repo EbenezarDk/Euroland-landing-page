@@ -333,13 +333,16 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
           </div>
         </div>
 
-        <div
-          className="about__logos"
-          ref={logosRef}
-          aria-label="Trusted by leading companies"
-        >
-          {renderLogoRow('top', 'rtl', CLIENT_LOGOS_SET_1)}
-          {renderLogoRow('bottom', 'ltr', CLIENT_LOGOS_SET_2)}
+        <div className="about__clients">
+          <h2 className="about__clients-heading">Our Clients</h2>
+          <div
+            className="about__logos"
+            ref={logosRef}
+            aria-label="Trusted by leading companies"
+          >
+            {renderLogoRow('top', 'rtl', CLIENT_LOGOS_SET_1)}
+            {renderLogoRow('bottom', 'ltr', CLIENT_LOGOS_SET_2)}
+          </div>
         </div>
 
         <div className="about__solutions">

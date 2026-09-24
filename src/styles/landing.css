@@ -599,11 +599,26 @@
   color: var(--color-white);
 }
 
+.about__clients {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.5vw, 40px);
+  width: 100%;
+  /* Parent .about__inner uses a larger gap — net to exactly 110px above/below */
+  margin-block: calc(110px - clamp(48px, 5.2vw, 100px));
+}
+
+.about__clients-heading {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-cyan);
+}
+
 .about__logos {
   position: relative;
   width: 100%;
-  /* Parent .about__inner uses a larger gap — net to exactly 110px above/below logos */
-  margin-block: calc(110px - clamp(48px, 5.2vw, 100px));
   overflow: hidden;
   user-select: none;
   display: flex;

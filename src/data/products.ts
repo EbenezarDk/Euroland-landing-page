@@ -294,7 +294,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
       {
         id: 'investor-communication',
-        label: 'Investor Communication and Engagement solutions',
+        label: 'Investor Engagement solutions',
         blocks: [
           {
             introEyebrow: 'Investor Communication and Engagement solutions',
@@ -357,7 +357,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
             ],
           },
           {
-            introEyebrow: 'Market Overview',
+            introEyebrow: 'Daily Email Market Overview',
             eyebrowAsFeatures: true,
             introHeading:
               'Market Overview combines your company’s share performance with peer-group movements, relevant indices, commodities and sector leaders to give C-suite and senior management a clear view of how the company is performing within the wider market.',
