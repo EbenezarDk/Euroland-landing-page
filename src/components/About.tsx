@@ -280,23 +280,20 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
       <div className="about__inner">
         <div className="about__story">
           <div className="about__copy" data-animate="about-copy">
-            <div>
-              <p className="about__eyebrow">About Euroland IR</p>
-              <h2 className="about__heading" id="about-heading">
-                Strengthen Investor Engagement with Euroland IR.
-              </h2>
-            </div>
+            <h2 className="about__eyebrow" id="about-heading">
+              About Euroland IR
+            </h2>
             <p className="about__text">
-              Euroland IR is your strategic partner for digital Investor Relations
-              solutions designed to strengthen credibility, improve investor access,
-              and communicate company value with clarity.
+              Strengthen Investor Engagement with Euroland IR. Euroland IR is your
+              strategic partner for digital Investor Relations solutions designed to
+              strengthen credibility, improve investor access, and communicate company
+              value with clarity.
             </p>
             <p className="about__text">
-              Trusted by more than 1,400 listed companies worldwide, including
-              250+ across the Middle East and GCC, we deliver a comprehensive suite
-              of IR solutions—from real-time market data and AI Assistant to mobile
-              IR apps, Sustainability Performance solutions and specialized digital
-              services.
+              Trusted by more than 1,400 listed companies worldwide, including 250+
+              across the Middle East and GCC, we deliver a comprehensive suite of IR
+              solutions—from real-time market data and AI Assistant to mobile IR apps,
+              Sustainability Performance solutions and specialized digital services.
             </p>
             <p className="about__text">
               Our integrated approach helps listed companies enhance transparency,
@@ -306,24 +303,84 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
           </div>
 
           <div className="about__cards" ref={cardsRef}>
-            <article className="about__card" data-card>
-              <h3 className="about__card-title">1,400+ Clients</h3>
+            <article className="about__card about__card--clients" data-card>
+              <div className="about__card-top">
+                <h3 className="about__card-title">
+                  <span className="about__card-stat">1,400+</span>
+                  <span className="about__card-label">Clients</span>
+                </h3>
+                <span className="about__card-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                    <path
+                      d="M8 12.5l2.5 2.5L16 9.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
               <p className="about__card-text">
                 Trusted by listed companies worldwide, our digital solutions
                 deliver data-driven storytelling that builds confidence and
                 strengthens investor communication.
               </p>
             </article>
-            <article className="about__card" data-card>
-              <h3 className="about__card-title">24/7 Support &amp; Services</h3>
+
+            <article className="about__card about__card--support" data-card>
+              <div className="about__card-top">
+                <h3 className="about__card-title">
+                  <span className="about__card-stat">24/7</span>
+                  <span className="about__card-label">Support &amp; Services</span>
+                </h3>
+                <span className="about__card-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                    <path
+                      d="M12 7.5v5l3 2"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
               <p className="about__card-text">
                 Every client is supported by a dedicated Account Manager and our
                 24/7 global service team, ensuring continuity, responsiveness
                 and reliable performance.
               </p>
             </article>
-            <article className="about__card" data-card>
-              <h3 className="about__card-title">Bank-Grade Cybersecurity</h3>
+
+            <article className="about__card about__card--security" data-card>
+              <div className="about__card-top">
+                <h3 className="about__card-title">
+                  <span className="about__card-stat about__card-stat--text">
+                    Bank-Grade
+                  </span>
+                  <span className="about__card-label">Cybersecurity</span>
+                </h3>
+                <span className="about__card-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+                    <path
+                      d="M12 3.5l7 3v5.2c0 4.4-2.9 7.5-7 8.8-4.1-1.3-7-4.4-7-8.8V6.5l7-3z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M9.5 12l1.8 1.8L14.8 10"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
               <p className="about__card-text">
                 Our platforms are built around robust, bank-grade security
                 standards designed to protect data integrity, privacy and

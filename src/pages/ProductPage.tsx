@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
-import { PRODUCTS, type ProductSlug, type ProductTabSection } from '../data/products'
+import {
+  PRODUCTS,
+  type ProductContent,
+  type ProductSlug,
+  type ProductTabSection,
+} from '../data/products'
 import { SiteHeader } from '../components/SiteHeader'
 import { FloatingPills } from '../components/FloatingPills'
 import { ProductBanner } from '../components/ProductBanner'
@@ -36,11 +41,145 @@ function readAiTabFromHash(): AiSubTabId {
   return isAiSubTabId(hash) ? hash : 'ai-assistant'
 }
 
-function readProductTabFromHash(
-  tabs: readonly ProductTabSection[],
-): string {
+function readProductTabFromHash(tabs: readonly ProductTabSection[]): string {
   const hash = window.location.hash.replace(/^#/, '')
   return tabs.some((tab) => tab.id === hash) ? hash : tabs[0]!.id
+}
+
+function ProductPageLead({
+  product,
+  mediaKey,
+}: {
+  product: ProductContent
+  mediaKey: string
+}) {
+  const lead = product.pageIntro
+  return (
+    <>
+      <ProductIntro
+        product={product}
+        variant="page"
+        eyebrow={lead?.eyebrow ?? product.introEyebrow}
+        heading=""
+        description={lead?.description ?? product.description}
+        sectionId={`product-page-lead-${mediaKey}`}
+        headingId={`product-page-lead-heading-${mediaKey}`}
+      />
+      <ProductMedia key={mediaKey} product={product} />
+    </>
+  )
+}
+
+function ProductDetailBand({ children }: { children: ReactNode }) {
+  return <div className="product-detail-band">{children}</div>
+}
+
+function ProductFollowBand({
+  children,
+  tone = 'white',
+}: {
+  children: ReactNode
+  tone?: 'white' | 'gray'
+}) {
+  return (
+    <div
+      className={`product-follow-band${
+        tone === 'gray' ? ' product-follow-band--gray' : ''
+      }`}
+    >
+      {children}
+    </div>
+  )
+}
+
+function renderTabDetail(product: ProductContent, tab: ProductTabSection) {
+  const hasPanel =
+    Boolean(tab.introEyebrow) ||
+    Boolean(tab.introHeading) ||
+    Boolean(tab.description?.length)
+
+  const panelDescription = [
+    ...(tab.introHeading ? [tab.introHeading] : []),
+    ...(tab.description ?? []),
+  ]
+
+  return (
+    <>
+      <ProductDetailBand>
+        {hasPanel ? (
+          <ProductIntro
+            product={product}
+            variant="panel"
+            eyebrow={tab.introEyebrow}
+            heading=""
+            description={panelDescription}
+            sectionId={`product-intro-${tab.id}`}
+            headingId={`product-intro-heading-${tab.id}`}
+          />
+        ) : null}
+        {tab.featuresSection ? (
+          <ProductFeatures
+            product={product}
+            section={tab.featuresSection}
+            headingId={`product-features-heading-${tab.id}`}
+            hideHeader
+            layout={
+              tab.featuresSection.features.every((f) => !f.description)
+                ? 'titleOnly'
+                : 'default'
+            }
+          />
+        ) : null}
+        {tab.liveExamples?.length ? (
+          <ProductLiveExamples
+            product={product}
+            headingId={`product-live-examples-heading-${tab.id}`}
+            logos={tab.liveExamples}
+            static
+          />
+        ) : null}
+      </ProductDetailBand>
+
+      {tab.blocks?.map((block, blockIndex) => {
+        const blockKey = `${tab.id}-block-${blockIndex}`
+        const tone = blockIndex % 2 === 0 ? 'white' : 'gray'
+        return (
+          <ProductFollowBand key={blockKey} tone={tone}>
+            {block.introHeading ||
+            block.introEyebrow ||
+            block.description?.length ? (
+              <ProductIntro
+                product={product}
+                variant={block.eyebrowAsFeatures ? 'card' : 'panel'}
+                eyebrow={block.introEyebrow}
+                heading={block.introHeading ?? ''}
+                headingAsLiveExamples={block.headingAsLiveExamples}
+                description={block.description ?? []}
+                sectionId={`product-intro-${blockKey}`}
+                headingId={`product-intro-heading-${blockKey}`}
+              />
+            ) : null}
+            {block.featuresSection ? (
+              <ProductFeatures
+                product={product}
+                section={block.featuresSection}
+                headingId={`product-features-heading-${blockKey}`}
+                hideHeader
+              />
+            ) : null}
+            {block.liveExamples?.length ? (
+              <ProductLiveExamples
+                product={product}
+                headingId={`product-live-examples-heading-${blockKey}`}
+                logos={block.liveExamples}
+                static
+              />
+            ) : null}
+          </ProductFollowBand>
+        )
+      })}
+    </>
+  )
 }
 
 export function ProductPage() {
@@ -188,7 +327,7 @@ export function ProductPage() {
           tabs={productTabs}
           activeTab={activeProductTab}
           onChange={handleProductTabChange}
-          ariaLabel="IR Solutions sections"
+          ariaLabel={`${product.label} sections`}
         />
       ) : null}
 
@@ -207,9 +346,24 @@ export function ProductPage() {
               hidden={aiTab !== 'ai-assistant'}
               tabIndex={aiTab === 'ai-assistant' ? 0 : -1}
             >
-              <ProductIntro product={product} />
-              <ProductFeatures product={product} />
-              <ProductLiveExamples product={product} />
+              <ProductPageLead product={product} mediaKey={`${product.slug}-ai`} />
+              <ProductDetailBand>
+                <ProductIntro
+                  product={product}
+                  variant="panel"
+                  eyebrow={product.introEyebrow}
+                  heading=""
+                  description={product.description}
+                  sectionId="product-intro-ai-assistant"
+                  headingId="product-intro-heading-ai-assistant"
+                />
+                <ProductFeatures
+                  product={product}
+                  hideHeader
+                  headingId="product-features-heading"
+                />
+                <ProductLiveExamples product={product} static />
+              </ProductDetailBand>
             </div>
 
             <div
@@ -220,19 +374,23 @@ export function ProductPage() {
               hidden={aiTab !== 'podcast-series'}
               tabIndex={aiTab === 'podcast-series' ? 0 : -1}
             >
+              <ProductPageLead
+                product={product}
+                mediaKey={`${product.slug}-podcast`}
+              />
               {product.secondaryFeatures ? (
-                <>
+                <ProductDetailBand>
                   <ProductIntro
                     product={product}
+                    variant="panel"
                     eyebrow={product.secondaryFeatures.heading}
-                    heading={
-                      product.secondaryFeatures.title ??
-                      product.secondaryFeatures.heading
-                    }
+                    heading=""
                     description={
-                      product.secondaryFeatures.description
-                        ? [product.secondaryFeatures.description]
-                        : []
+                      product.secondaryFeatures.title
+                        ? [product.secondaryFeatures.title]
+                        : product.secondaryFeatures.description
+                          ? [product.secondaryFeatures.description]
+                          : []
                     }
                     sectionId="product-intro-podcast-series"
                     headingId="product-intro-heading-podcast-series"
@@ -240,21 +398,22 @@ export function ProductPage() {
                   <ProductFeatures
                     product={product}
                     section={{
-                      heading:
-                        product.secondaryFeatures.featuresLabel ?? 'Features',
+                      heading: product.secondaryFeatures.heading,
                       features: product.secondaryFeatures.features,
                     }}
                     headingId="product-secondary-features-heading"
+                    hideHeader
+                    layout="podcast"
                   />
-                </>
-              ) : null}
-              {product.secondaryLiveExamples?.length ? (
-                <ProductLiveExamples
-                  product={product}
-                  headingId="product-secondary-live-examples-heading"
-                  logos={product.secondaryLiveExamples}
-                  static
-                />
+                  {product.secondaryLiveExamples?.length ? (
+                    <ProductLiveExamples
+                      product={product}
+                      headingId="product-secondary-live-examples-heading"
+                      logos={product.secondaryLiveExamples}
+                      static
+                    />
+                  ) : null}
+                </ProductDetailBand>
               ) : null}
             </div>
           </>
@@ -271,6 +430,10 @@ export function ProductPage() {
                 hidden={!selected}
                 tabIndex={selected ? 0 : -1}
               >
+                <ProductPageLead
+                  product={product}
+                  mediaKey={`${product.slug}-${tab.id}`}
+                />
                 {tab.explained ? (
                   <ProductExplained
                     product={product}
@@ -278,84 +441,7 @@ export function ProductPage() {
                     headingId={`product-explained-heading-${tab.id}`}
                   />
                 ) : null}
-                {tab.blocks?.length
-                  ? tab.blocks.map((block, blockIndex) => {
-                      const blockKey = `${tab.id}-block-${blockIndex}`
-                      return (
-                        <div key={blockKey} className="product-tab-block">
-                          {block.introHeading ||
-                          block.introEyebrow ||
-                          block.description?.length ? (
-                            <ProductIntro
-                              product={product}
-                              eyebrow={block.introEyebrow}
-                              eyebrowAsFeatures={block.eyebrowAsFeatures}
-                              heading={block.introHeading ?? ''}
-                              headingAsLiveExamples={block.headingAsLiveExamples}
-                              description={block.description ?? []}
-                              sectionId={`product-intro-${blockKey}`}
-                              headingId={`product-intro-heading-${blockKey}`}
-                            />
-                          ) : null}
-                          {block.featuresSection ? (
-                            <ProductFeatures
-                              product={product}
-                              section={block.featuresSection}
-                              headingId={`product-features-heading-${blockKey}`}
-                            />
-                          ) : null}
-                          {block.liveExamples?.length ? (
-                            <ProductLiveExamples
-                              product={product}
-                              headingId={`product-live-examples-heading-${blockKey}`}
-                              logos={block.liveExamples}
-                              static
-                            />
-                          ) : null}
-                        </div>
-                      )
-                    })
-                  : null}
-                {!tab.blocks?.length && tab.introHeading ? (
-                  <ProductIntro
-                    product={product}
-                    eyebrow={tab.introEyebrow}
-                    heading={tab.introHeading}
-                    description={tab.description ?? []}
-                    sectionId={`product-intro-${tab.id}`}
-                    headingId={`product-intro-heading-${tab.id}`}
-                  />
-                ) : null}
-                {tab.mediaImage ? (
-                  <div className="product-tab-media">
-                    <div className="product-tab-media__inner">
-                      <img
-                        src={tab.mediaImage}
-                        alt={tab.mediaImageAlt ?? ''}
-                        width={1200}
-                        height={750}
-                        loading="lazy"
-                        decoding="async"
-                        draggable={false}
-                      />
-                    </div>
-                  </div>
-                ) : null}
-                {!tab.blocks?.length && tab.featuresSection ? (
-                  <ProductFeatures
-                    product={product}
-                    section={tab.featuresSection}
-                    headingId={`product-features-heading-${tab.id}`}
-                  />
-                ) : null}
-                {!tab.blocks?.length && tab.liveExamples?.length ? (
-                  <ProductLiveExamples
-                    product={product}
-                    headingId={`product-live-examples-heading-${tab.id}`}
-                    logos={tab.liveExamples}
-                    static
-                  />
-                ) : null}
+                {renderTabDetail(product, tab)}
               </div>
             )
           })
@@ -398,33 +484,16 @@ export function ProductPage() {
           })
         ) : (
           <>
-            <ProductIntro product={product} />
-            <ProductFeatures product={product} />
-            <ProductLiveExamples product={product} />
-            {product.secondaryFeatures ? (
-              <>
-                <ProductFeatures
-                  product={product}
-                  section={product.secondaryFeatures}
-                  headingId="product-secondary-features-heading"
-                />
-                {product.secondaryLiveExamples?.length ? (
-                  <ProductLiveExamples
-                    product={product}
-                    headingId="product-secondary-live-examples-heading"
-                    logos={product.secondaryLiveExamples}
-                    static
-                  />
-                ) : null}
-              </>
-            ) : null}
+            <ProductPageLead product={product} mediaKey={product.slug} />
+            <ProductDetailBand>
+              <ProductFeatures product={product} hideHeader />
+              <ProductLiveExamples product={product} />
+            </ProductDetailBand>
           </>
         )}
       </section>
 
       <ProductExplained product={product} />
-
-      <ProductMedia key={product.slug} product={product} />
 
       <Enquiry
         sectionRef={enquiryRef}

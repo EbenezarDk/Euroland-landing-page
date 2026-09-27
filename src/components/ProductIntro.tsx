@@ -13,6 +13,14 @@ type ProductIntroProps = {
   description?: string[]
   sectionId?: string
   headingId?: string
+  /** Render as a div for nesting inside a parent section (split layout) */
+  embedded?: boolean
+  /**
+   * page  — white lead (cyan 28 / body 14)
+   * panel — navy detail box
+   * card  — light feature card with cyan top rule
+   */
+  variant?: 'default' | 'page' | 'panel' | 'card'
 }
 
 export function ProductIntro({
@@ -24,56 +32,93 @@ export function ProductIntro({
   description,
   sectionId = 'product-intro',
   headingId = 'product-intro-heading',
+  embedded = false,
+  variant = 'default',
 }: ProductIntroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const introEyebrow = eyebrow ?? product.introEyebrow
   const introHeading = heading ?? product.introHeading
   const introDescription = description ?? product.description
+  const hasLead = Boolean(introEyebrow || introHeading)
+  const resolvedVariant =
+    variant === 'default' && eyebrowAsFeatures ? 'card' : variant
 
-  useProductScrollReveal(sectionRef, {
+  useProductScrollReveal(embedded ? { current: null } : sectionRef, {
     items:
       '.product-intro__eyebrow, .product-features__heading, .product-intro__heading, .product-explained__live-heading, .product-intro__copy p',
   })
 
+  const className = [
+    'product-intro',
+    resolvedVariant !== 'default' ? `product-intro--${resolvedVariant}` : '',
+    embedded ? 'product-intro--embedded' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  const inner = (
+    <div className="product-intro__inner">
+      {hasLead ? (
+        <div className="product-intro__lead">
+          {introEyebrow ? (
+            <p
+              className={
+                resolvedVariant === 'card' || eyebrowAsFeatures
+                  ? 'product-features__heading product-intro__card-title'
+                  : 'product-intro__eyebrow'
+              }
+            >
+              {introEyebrow}
+            </p>
+          ) : null}
+          {introHeading ? (
+            <h2
+              className={
+                headingAsLiveExamples
+                  ? 'product-explained__live-heading'
+                  : 'product-intro__heading'
+              }
+              id={headingId}
+            >
+              {introHeading}
+            </h2>
+          ) : null}
+        </div>
+      ) : null}
+      {introDescription.length > 0 ? (
+        <div className="product-intro__copy">
+          {introDescription.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  )
+
+  if (embedded) {
+    return (
+      <div
+        className={className}
+        id={sectionId}
+        {...(introHeading
+          ? { 'aria-labelledby': headingId }
+          : { 'aria-label': introEyebrow })}
+      >
+        {inner}
+      </div>
+    )
+  }
+
   return (
     <section
-      className="product-intro"
+      className={className}
       id={sectionId}
       ref={sectionRef}
-      {...(introHeading ? { 'aria-labelledby': headingId } : { 'aria-label': introEyebrow })}
+      {...(introHeading
+        ? { 'aria-labelledby': headingId }
+        : { 'aria-label': introEyebrow })}
     >
-      <div className="product-intro__inner">
-        {introEyebrow ? (
-          <p
-            className={
-              eyebrowAsFeatures
-                ? 'product-features__heading'
-                : 'product-intro__eyebrow'
-            }
-          >
-            {introEyebrow}
-          </p>
-        ) : null}
-        {introHeading ? (
-          <h2
-            className={
-              headingAsLiveExamples
-                ? 'product-explained__live-heading'
-                : 'product-intro__heading'
-            }
-            id={headingId}
-          >
-            {introHeading}
-          </h2>
-        ) : null}
-        {introDescription.length > 0 ? (
-          <div className="product-intro__copy">
-            {introDescription.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        ) : null}
-      </div>
+      {inner}
     </section>
   )
 }

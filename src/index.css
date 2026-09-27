@@ -14,7 +14,7 @@
   --color-stone: #343330;
   --font-sans: 'Satoshi', system-ui, -apple-system, sans-serif;
   --page-pad: clamp(24px, 10.4vw, 200px);
-  --section-pad-y: clamp(64px, 5.2vw, 100px);
+  --section-pad-y: 80px;
   --floating-dock-bottom: 40px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }

@@ -47,6 +47,7 @@ function LiveExampleLogo({
       href={logo.href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={alt}
     >
       {img}
     </a>
@@ -242,16 +243,59 @@ export function ProductLiveExamples({
   const sectionRef = useRef<HTMLElement>(null)
   const logos =
     logosProp ?? product.liveExamples ?? product.explained?.liveExamples ?? []
+  const previews = logos.filter((logo) => logo.preview)
+  const brandLogos = logos.filter((logo) => !logo.preview)
+  const hasPreview = previews.length > 0
+  const hasLogos = brandLogos.length > 0
 
   useProductScrollReveal(sectionRef, {
-    items: '.product-explained__live-heading, .product-explained__logos',
+    items:
+      '.product-explained__live-heading, .product-explained__logos, .product-live-examples__frame',
   })
 
-  if (logos.length === 0) return null
+  if (!hasPreview && !hasLogos) return null
+
+  const previewHref = previews.find((item) => item.href)?.href
+
+  const previewGrid = (
+    <div className="product-live-examples__frame" aria-label="Live example preview">
+      <div className="product-live-examples__preview">
+        {previews.map((shot) => (
+          <img
+            key={shot.src}
+            src={shot.src}
+            alt={shot.alt}
+            loading="eager"
+            decoding="async"
+            draggable={false}
+          />
+        ))}
+      </div>
+    </div>
+  )
+
+  const logosRow = hasLogos ? (
+    isStatic || hasPreview ? (
+      <ul
+        className="product-explained__logos product-explained__logos--static"
+        aria-label="Live examples"
+      >
+        {brandLogos.map((logo) => (
+          <li key={logo.src} className="product-explained__logo">
+            <LiveExampleLogo logo={logo} alt={logo.alt} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <LiveExamplesMarquee logos={brandLogos} direction="rtl" />
+    )
+  ) : null
 
   return (
     <section
-      className={`product-live-examples${isStatic ? ' product-live-examples--static' : ''}`}
+      className={`product-live-examples${isStatic ? ' product-live-examples--static' : ''}${
+        hasPreview ? ' product-live-examples--preview' : ''
+      }`}
       ref={sectionRef}
       aria-labelledby={headingId}
     >
@@ -259,17 +303,22 @@ export function ProductLiveExamples({
         <h2 className="product-explained__live-heading" id={headingId}>
           Live examples
         </h2>
-        {isStatic ? (
-          <ul className="product-explained__logos product-explained__logos--static" aria-label="Live examples">
-            {logos.map((logo) => (
-              <li key={logo.src} className="product-explained__logo">
-                <LiveExampleLogo logo={logo} alt={logo.alt} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <LiveExamplesMarquee logos={logos} direction="rtl" />
-        )}
+        {logosRow}
+        {hasPreview
+          ? previewHref ? (
+              <a
+                className="product-live-examples__preview-link"
+                href={previewHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={previews[0]?.alt ?? 'Open live example'}
+              >
+                {previewGrid}
+              </a>
+            ) : (
+              previewGrid
+            )
+          : null}
       </div>
     </section>
   )

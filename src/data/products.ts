@@ -5,7 +5,7 @@ export type ProductSlug =
 
 export type ProductFeature = {
   title: string
-  description: string
+  description?: string
 }
 
 export type ProductFeaturesSection = {
@@ -17,12 +17,19 @@ export type ProductFeaturesSection = {
   features: ProductFeature[]
 }
 
+export type ProductPageIntro = {
+  eyebrow: string
+  description: string[]
+}
+
 export type ProductLiveExample = {
   src: string
   alt: string
   height?: number
-  /** Optional external URL — logo becomes a link */
+  /** Optional external URL — logo/preview becomes a link */
   href?: string
+  /** Full-width screenshot preview (e.g. Fact Sheet live example) */
+  preview?: boolean
 }
 
 export type ProductExplained = {
@@ -75,14 +82,16 @@ export type ProductContent = {
   introEyebrow: string
   introHeading: string
   description: string[]
+  /** Shared white page lead shown above video on every tab */
+  pageIntro?: ProductPageIntro
   featuresHeading?: string
   features?: ProductFeature[]
   secondaryFeatures?: ProductFeaturesSection
   liveExamples?: ProductLiveExample[]
   secondaryLiveExamples?: ProductLiveExample[]
-  /** Content blocks when the page has no sticky tabs (e.g. Sustainability) */
+  /** Content blocks when the page has no sticky tabs */
   blocks?: ProductTabBlock[]
-  /** Sticky sub-menu panels (IR Solutions, etc.) */
+  /** Sticky sub-menu panels (IR Solutions, Sustainability, etc.) */
   tabs?: ProductTabSection[]
   explained?: ProductExplained
   mediaType: 'video' | 'image'
@@ -99,9 +108,16 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     title: 'TELL YOUR EQUITY STORY',
     subtitle: 'PURPOSE-BUILT\nAI SOLUTIONS FOR IR',
     introEyebrow: 'AI Assistant',
-    introHeading:
+    introHeading: '',
+    description: [
       'Purpose-built intelligence that helps investors find answers faster while giving IR teams deeper visibility into what matters most.',
-    description: [],
+    ],
+    pageIntro: {
+      eyebrow: 'Purpose-built AI solutions for IR',
+      description: [
+        'Purpose-built AI solutions designed to transform Investor Relations with smarter insights, faster access to information, and more engaging stakeholder experiences. From AI-powered search to intelligent content and analysis, Euroland helps IR teams work smarter and communicate with greater impact.',
+      ],
+    },
     featuresHeading: 'Features',
     features: [
       {
@@ -129,7 +145,6 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       heading: 'AI-Powered Podcast Series',
       title:
         'Turn financial information into engaging conversations that make your equity story easier to access, understand and share.',
-      featuresLabel: 'Features',
       features: [
         {
           title: 'Turn Financial Content into Investor Stories',
@@ -149,23 +164,98 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       ],
     },
     liveExamples: [
-      { src: '/assets/clients/live-examples/ai-assistant/experian_full_colour-1.png', alt: 'Experian', height: 36 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-420.png', alt: 'Luberef', height: 48 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-427.png', alt: 'First Abu Dhabi Bank', height: 48 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-428.png', alt: 'Alinma Bank', height: 40 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-429.png', alt: 'Nahdi', height: 40 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-430.png', alt: 'NADEC', height: 48 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-431.png', alt: 'etisalat and', height: 48 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-432.png', alt: 'Salik', height: 36 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-433.png', alt: 'Client logo', height: 40 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-434.png', alt: 'Omantel', height: 32 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-435.png', alt: 'Givaudan', height: 28 },
-      { src: '/assets/clients/live-examples/ai-assistant/image-436.png', alt: 'Corbion', height: 48 },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/experian_full_colour-1.png',
+        alt: 'Experian',
+        height: 36,
+        href: 'https://www.experianplc.com/investors/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-420.png',
+        alt: 'Luberef',
+        height: 48,
+        href: 'https://www.luberef.com/en/investors-relations',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-427.png',
+        alt: 'First Abu Dhabi Bank',
+        height: 48,
+        href: 'https://www.bankfab.com/en-ae/about-fab/investor-relations',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-428.png',
+        alt: 'Alinma Bank',
+        height: 40,
+        href: 'https://ir.alinma.com/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-429.png',
+        alt: 'Nahdi',
+        height: 40,
+        href: 'https://investors.nahdi.sa/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-430.png',
+        alt: 'NADEC',
+        height: 48,
+        href: 'https://ir.nadec.com.sa/en/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-431.png',
+        alt: 'e&',
+        height: 48,
+        href: 'https://www.eand.com/en/investors/share-information.html',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-432.png',
+        alt: 'Salik',
+        height: 36,
+        href: 'https://www.salik.ae/en/Investors/Overview',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-433.png',
+        alt: 'Alpha Dhabi',
+        height: 40,
+        href: 'https://alphadhabi.com/investor-relations-overview/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-434.png',
+        alt: 'Omantel',
+        height: 32,
+        href: 'https://ir.omantel.om/',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-435.png',
+        alt: 'Givaudan',
+        height: 28,
+        href: 'https://www.givaudan.com/investors',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-436.png',
+        alt: 'Corbion',
+        height: 48,
+        href: 'https://www.corbion.com/investor-relations',
+      },
     ],
     secondaryLiveExamples: [
-      { src: '/assets/clients/live-examples/ai-set-2/image-427.png', alt: 'Salik', height: 36 },
-      { src: '/assets/clients/live-examples/ai-set-2/image-437.png', alt: 'Omantel', height: 32 },
-      { src: '/assets/clients/live-examples/ai-set-2/image-440.png', alt: 'DEYAAR', height: 40 },
+      {
+        src: '/assets/clients/live-examples/ai-assistant/image-432.png',
+        alt: 'Salik',
+        height: 36,
+        href: 'https://share.transistor.fm/s/2f242631',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-set-2/image-437.png',
+        alt: 'Omantel',
+        height: 32,
+        href: 'https://podcasts.apple.com/us/podcast/omantel-ir-podcast/id1839153964',
+      },
+      {
+        src: '/assets/clients/live-examples/ai-set-2/image-440.png',
+        alt: 'DEYAAR',
+        height: 40,
+        href: 'https://www.linkedin.com/posts/podcast-financialinsights-futureoutlook-ugcPost-7430602230032015360-fA9H/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAI4BUsB1U9d31QlUSKhOmXZq5ZZ15tBvvY',
+      },
     ],
     mediaType: 'video',
     videoSrc: '/assets/ai.mp4',
@@ -184,6 +274,12 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     description: [
       'Go beyond the numbers with an interactive view of your company’s financial performance. Explore historical trends, benchmark against peers and market indices, and see how key corporate events shaped your equity story—all in one powerful experience.',
     ],
+    pageIntro: {
+      eyebrow: 'Best-Practice IR Solutions',
+      description: [
+        'Proven Investor Relations solutions built around industry best practices, delivering clear communication, engaging digital experiences, and reliable investor information. Euroland empowers companies to strengthen their IR presence, improve transparency, and build lasting investor confidence.',
+      ],
+    },
     featuresHeading: 'Features',
     features: [
       {
@@ -212,17 +308,15 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         id: 'fact-sheet',
         label: 'Fact Sheet',
         introEyebrow: 'Fact Sheet',
-        introHeading: 'Your investment story at a glance.',
         description: [
-          'A dynamic one- or two-page investor snapshot with the company’s most relevant market and financial information in a clear and interactive view.',
-          'Automatically updated with the latest closing share price and performance chart, alongside key financial figures and KPIs presented through intuitive visuals, helping investors quickly understand performance and trends.',
-          'The Fact Sheet can be downloaded as a professionally formatted PDF, giving investors an up-to-date reference they can access, save and share.',
+          'Your investment story at a glance. A dynamic one- or two-page investor snapshot with the company’s most relevant market and financial information in a clear and interactive view.',
+          'Automatically updated with the latest closing share price and performance chart, alongside key financial figures and KPIs presented through intuitive visuals, helping investors quickly understand performance and trends. The Fact Sheet can be downloaded as a professionally formatted PDF, giving investors an up-to-date reference they can access, save and share.',
         ],
         liveExamples: [
           {
-            src: '/assets/clients/live-examples/dib.png',
-            alt: 'Dubai Islamic Bank',
-            height: 28,
+            src: '/assets/clients/live-examples/fact-sheet/dib-fact-sheet.png',
+            alt: 'Dubai Islamic Bank Fact Sheet',
+            preview: true,
             href: 'https://www.dib.ae/about-us/investor-relations/about-us',
           },
         ],
@@ -231,16 +325,15 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         id: 'key-figures',
         label: 'Key Figures',
         introEyebrow: 'Key Figures',
-        introHeading:
-          'From Financial reports to instant insight. Present quarterly and annual key figures through dynamic, interactive visuals that give investors a clear view of performance, trends and KPIs.',
         description: [
+          'From Financial reports to instant insight. Present quarterly and annual key figures through dynamic, interactive visuals that give investors a clear view of performance, trends and KPIs.',
           'The solution is fully managed and updated by Euroland’s skilled financial analysts, ensuring accuracy and consistency across your financial data. All data can be downloaded in Excel, PDF and JPEG formats, making it easy to analyze, present and share across different stakeholder audiences.',
         ],
         liveExamples: [
           {
-            src: '/assets/clients/live-examples/riyad-bank.png',
-            alt: 'Riyad Bank',
-            height: 28,
+            src: '/assets/clients/live-examples/key-figures/riyad-bank-key-figures.png',
+            alt: 'Riyad Bank Key Figures — Annual and Quarterly Data',
+            preview: true,
             href: 'https://www.riyadbank.com/investor-relations/key-figures',
           },
         ],
@@ -248,44 +341,41 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       {
         id: 'share-solutions',
         label: 'Share solutions',
-        blocks: [
+        introEyebrow: 'Share solutions',
+        description: [
+          'Turn share data into meaningful investor insight with a comprehensive suite of interactive tools that gives investors a clearer view of share performance, valuation and shareholder returns.',
+        ],
+        featuresSection: {
+          heading: 'Share Analysis',
+          features: [
+            {
+              title: 'Share Analysis',
+              description:
+                'Share Graph, Share Overview, Historical Price Look-up, Investment Calculator, Share Alerts, Shareholder Structure, Dividend solutions. Turn share data into meaningful investor insight. A comprehensive suite of interactive tools that gives investors a clearer view of share performance, valuation and shareholder returns. From a concise Share Overview and historical Share Price Lookup, to advanced real-time Share Graph Monitoring with peer and index comparisons, investors can analyze performance using indicators such as dividends, earnings, total return, moving averages and relative strength. The suite also includes Share Price Alerts, an Investment Calculator, and Total Shareholder Return analysis, enabling investors to monitor key price movements, evaluate investment performance and assess the impact of dividends and corporate actions over time.',
+            },
+          ],
+        },
+        liveExamples: [
           {
-            introEyebrow: 'Share solutions',
-            introHeading: 'Share Analysis',
-            headingAsLiveExamples: true,
-            description: [
-              'Share Graph, Share Overview, Historical Price Look-up, Investment Calculator, Share Alerts, Shareholder Structure, Dividend solutions. Turn share data into meaningful investor insight. A comprehensive suite of interactive tools that gives investors a clearer view of share performance, valuation and shareholder returns.',
-              'From a concise Share Overview and historical Share Price Lookup, to advanced real-time Share Graph Monitoring with peer and index comparisons, investors can analyze performance using indicators such as dividends, earnings, total return, moving averages and relative strength.',
-              'The suite also includes Share Price Alerts, an Investment Calculator, and Total Shareholder Return analysis, enabling investors to monitor key price movements, evaluate investment performance and assess the impact of dividends and corporate actions over time.',
-            ],
-            liveExamples: [
-              {
-                src: '/assets/clients/live-examples/care-medical.png',
-                alt: 'Care Medical',
-                height: 28,
-                href: 'https://ir.care.med.sa/en/share-information/#dividends',
-              },
-              {
-                src: '/assets/clients/live-examples/nahdi.png',
-                alt: 'Nahdi',
-                height: 28,
-                href: 'https://investors.nahdi.sa/en/stock-overview/',
-              },
-            ],
+            src: '/assets/clients/live-examples/share-solutions/share-solutions.png',
+            alt: 'Share solutions — Share Graph and Share Overview live examples',
+            preview: true,
+            href: 'https://investors.nahdi.sa/en/stock-overview/',
           },
+        ],
+        blocks: [
           {
             introEyebrow: 'Analyst Coverage',
             eyebrowAsFeatures: true,
-            introHeading:
-              'Analyst List with Rating, Recommendation Overview, Consensus Estimates. Build trust through transparent access to analyst coverage. Present recommendation trends, consensus views, current and target prices, and historical changes through dynamic visual tools that make market sentiment easier to understand.',
             description: [
+              'Analyst List with Rating, Recommendation Overview, Consensus Estimates. Build trust through transparent access to analyst coverage. Present recommendation trends, consensus views, current and target prices, and historical changes through dynamic visual tools that make market sentiment easier to understand.',
               'The Consensus Estimates Solution adds forward-looking insight across upcoming reporting periods and financial years, presenting aggregated analyst estimates alongside the latest actual results for a clearer view of market expectations.',
             ],
             liveExamples: [
               {
-                src: '/assets/clients/live-examples/maaden.png',
-                alt: "Ma'aden",
-                height: 28,
+                src: '/assets/clients/live-examples/analyst-coverage/maaden-consensus-estimates.png',
+                alt: "Ma'aden Consensus Estimates",
+                preview: true,
                 href: 'https://www.maaden.com/investor-relations?category=analyst-coverage&innerCategory=consensus-estimates',
               },
             ],
@@ -295,37 +385,40 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       {
         id: 'investor-communication',
         label: 'Investor Engagement solutions',
+        introEyebrow: 'Investor Engagement solutions',
+        description: [
+          'Keep investors informed, engaged and connected from disclosure to delivery.',
+        ],
+        featuresSection: {
+          heading: 'Company Announcements',
+          features: [
+            {
+              title: 'Company Announcements',
+              description:
+                'Company Announcements can be filtered by type and period, searched by keyword, and linked to share-price movements to give investors greater context around disclosures.',
+            },
+          ],
+        },
+        liveExamples: [
+          {
+            src: '/assets/clients/live-examples/investor-engagement/omifco-disclosures.png',
+            alt: 'OMIFCO Disclosures & Events',
+            preview: true,
+            href: 'https://ir.omifco.com/disclosures-events/disclosures/',
+          },
+        ],
         blocks: [
-          {
-            introEyebrow: 'Investor Communication and Engagement solutions',
-            description: [
-              'Keep investors informed, engaged and connected from disclosure to delivery.',
-            ],
-          },
-          {
-            introEyebrow: 'Company Announcements',
-            eyebrowAsFeatures: true,
-            introHeading:
-              'Announcements can be filtered by type and period, searched by keyword, and linked to share-price movements to give investors greater context around disclosures.',
-            liveExamples: [
-              {
-                src: '/assets/clients/live-examples/omifco.png',
-                alt: 'OMIFCO',
-                height: 28,
-                href: 'https://ir.omifco.com/disclosures-events/disclosures/',
-              },
-            ],
-          },
           {
             introEyebrow: 'Financial Calendar',
             eyebrowAsFeatures: true,
-            introHeading:
-              'Calendar presents upcoming and historical events, with reminders and alert options for AGMs, reporting dates and other key milestones. Supporting documents, links and files can be added through an easy-to-manage CMS.',
+            description: [
+              'Financial Calendar presents upcoming and historical events, with reminders and alert options for AGMs, reporting dates and other key milestones. Supporting documents, links and files can be added through an easy-to-manage CMS.',
+            ],
             liveExamples: [
               {
-                src: '/assets/clients/live-examples/marsa-maroc.png',
-                alt: 'Marsa Maroc',
-                height: 28,
+                src: '/assets/clients/live-examples/investor-engagement/eand-financial-calendar.png',
+                alt: 'e& Financial Calendar',
+                preview: true,
                 href: 'https://www.eand.com/en/investors/financial-calendar.html',
               },
             ],
@@ -333,13 +426,14 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
           {
             introEyebrow: 'Email Subscription Centre',
             eyebrowAsFeatures: true,
-            introHeading:
-              'Subscription Centre enables investors and stakeholders to subscribe to annual reports, results, dividend updates, AGM information and other communications, while giving IR teams full control over subscriber lists, content and distribution. For companies looking for additional support, Euroland Concierge Service can manage mailing lists, prepare reusable email campaigns, support distribution and provide analytics on delivery, opens and geographic engagement.',
+            description: [
+              'Email Subscription Centre enables investors and stakeholders to subscribe to annual reports, results, dividend updates, AGM information and other communications, while giving IR teams full control over subscriber lists, content and distribution. For companies looking for additional support, Euroland Concierge Service can manage mailing lists, prepare reusable email campaigns, support distribution and provide analytics on delivery, opens and geographic engagement.',
+            ],
             liveExamples: [
               {
-                src: '/assets/clients/live-examples/etisalat.png',
-                alt: 'e&',
-                height: 28,
+                src: '/assets/clients/live-examples/investor-engagement/marsa-maroc-subscription.png',
+                alt: 'Marsa Maroc IR Subscription Centre',
+                preview: true,
                 href: 'https://www.marsamaroc.co.ma/en/ir-subscription',
               },
             ],
@@ -349,43 +443,40 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       {
         id: 'market-overview',
         label: 'Market Overview',
-        blocks: [
-          {
-            introEyebrow: 'Market Overview',
-            description: [
-              'Keep management informed with the market context that matters. Deliver concise daily or weekly market updates directly to management, the Board and senior leadership after market close.',
-            ],
-          },
-          {
-            introEyebrow: 'Daily Email Market Overview',
-            eyebrowAsFeatures: true,
-            introHeading:
-              'Market Overview combines your company’s share performance with peer-group movements, relevant indices, commodities and sector leaders to give C-suite and senior management a clear view of how the company is performing within the wider market.',
-          },
-          {
-            introEyebrow: 'WhatsApp Market Overview',
-            eyebrowAsFeatures: true,
-            introHeading:
-              'Market Overview brings this intelligence directly to mobile, fast, convenient access to key market data anytime, anywhere. Daily updates can include company performance, local and international peers, indices, commodities and sector leaders to make market context immediately available without opening multiple platforms or reports.',
-          },
+        introEyebrow: 'Market Overview',
+        description: [
+          'Keep management informed with the market context that matters. Deliver concise daily or weekly market updates directly to management, the Board and senior leadership after market close.',
         ],
+        featuresSection: {
+          heading: 'Market Overview channels',
+          features: [
+            {
+              title: 'Daily Email Market Overview',
+              description:
+                'Market Overview combines your company’s share performance with peer-group movements, relevant indices, commodities and sector leaders to give C-suite and senior management a clear view of how the company is performing within the wider market.',
+            },
+            {
+              title: 'WhatsApp Market Overview',
+              description:
+                'WhatsApp Market Overview brings this intelligence directly to mobile, fast, convenient access to key market data anytime, anywhere. Daily updates can include company performance, local and international peers, indices, commodities and sector leaders to make market context immediately available without opening multiple platforms or reports.',
+            },
+          ],
+        },
       },
       {
         id: 'ir-application',
         label: 'IR Application',
         introEyebrow: 'IR Application',
-        introHeading:
-          'Put your Investor Relations experience in your investors’ hands. The Euroland IR App gives investors and analysts convenient, on-the-go access to your most important IR content through a dedicated mobile experience.',
         description: [
-          'The app brings together share performance, historical price data, investment calculations, dividends, key financials, reports, announcements, sustainability information, IR events, webcasts, videos, management information and contact details, all in one place.',
-          'Investors can access reports and documents offline, build watchlists, compare the company against peers and indices, and receive push notifications for important updates and disclosures. With multilingual functionality that automatically adapts to the user’s language preference, the IR App helps companies extend investor access across global audiences.',
-          'To drive adoption, Euroland also provides dedicated marketing materials and QR codes that can be integrated into IR websites, annual reports, quarterly reports and investor presentations — making the app easy to discover and access.',
+          'Put your Investor Relations experience in your investors’ hands. The Euroland IR App gives investors and analysts convenient, on-the-go access to your most important IR content through a dedicated mobile experience.',
+          'The app brings together share performance, historical price data, investment calculations, dividends, key financials, reports, announcements, sustainability information, IR events, webcasts, videos, management information and contact details, all in one place. Investors can access reports and documents offline, build watchlists, compare the company against peers and indices, and receive push notifications for important updates and disclosures.',
+          'With multilingual functionality that automatically adapts to the user’s language preference, the IR App helps companies extend investor access across global audiences. To drive adoption, Euroland also provides dedicated marketing materials and QR codes that can be integrated into IR websites, annual reports, quarterly reports and investor presentations — making the app easy to discover and access.',
         ],
         liveExamples: [
           {
-            src: '/assets/clients/live-examples/salik.png',
+            src: '/assets/clients/live-examples/ai-assistant/image-432.png',
             alt: 'Salik',
-            height: 28,
+            height: 36,
             href: 'http://www.myirapp.com/salik',
           },
           {
@@ -423,14 +514,47 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     introEyebrow: 'Sustainability solutions',
     introHeading: '',
     description: [],
-    blocks: [
+    pageIntro: {
+      eyebrow: 'Sustainability Solutions',
+      description: [
+        'Comprehensive ESG and sustainability solutions that help companies communicate their environmental, social, and governance performance with clarity.',
+        'Euroland enables transparent reporting, engaging digital experiences, and meaningful stakeholder communication around sustainability.',
+      ],
+    },
+    tabs: [
       {
-        introEyebrow: 'Sustainability solutions',
+        id: 'sustainability-performance',
+        label: 'Sustainability Performance solution',
+        introEyebrow: 'Sustainability Performance solution',
         description: [
-          'Sustainability is no longer just about reporting. It is about showing measurable progress, building trust and making ESG performance easier to understand. With Euroland Sustainability Performance, companies can transform complex ESG data into a clear, interactive digital experience.',
-          'Environmental, social and governance indicators can be presented through dynamic charts, historical trends and intuitive visuals — helping investors and stakeholders quickly understand performance, targets and progress over time.',
-          'Instead of searching through lengthy sustainability reports, users can access the information that matters in a structured, transparent and engaging format.',
+          'A dynamic view of your sustainability performance and key ESG indicators. The Sustainability Performance solution provides stakeholders with an interactive view of key sustainability metrics and performance trends.',
+          'The solution may be structured across Environmental, Social and Governance (ESG) categories, with additional subcategories based on material sustainability topics and reporting framework.',
         ],
+        featuresSection: {
+          heading: 'Capabilities',
+          features: [
+            {
+              title:
+                'Interactive presentation of key sustainability indicators and performance data',
+            },
+            {
+              title: 'Historical data and year-on-year performance trends',
+            },
+            {
+              title: 'Interactive chart and table views',
+            },
+            {
+              title: 'Data filtering and comparison functionality',
+            },
+            {
+              title: 'Download options including Excel, PDF and image formats',
+            },
+            {
+              title:
+                'Ongoing data updates and content management by Euroland’s Support Team',
+            },
+          ],
+        },
         liveExamples: [
           {
             src: '/assets/clients/live-examples/sustainability/ad-ports-group.png',
@@ -456,9 +580,19 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
             height: 36,
             href: 'https://www.adcb.com/en/about-us/sustainability/reports-and-downloads-performance-data.aspx#tabs',
           },
+          {
+            src: '/assets/clients/live-examples/sustainability/sustainability-performance.png',
+            alt: 'Sustainability Performance live examples — Operational KPIs and water withdrawal',
+            preview: true,
+            href: 'https://www.adportsgroup.com/en/investors/financial-information/performance',
+          },
         ],
       },
       {
+        id: 'csrd',
+        label: 'Compliant Sustainability Performance & Disclosure solution',
+        introEyebrow:
+          'Compliant Sustainability Performance & Disclosure solution',
         description: [
           'For companies looking to deliver a more comprehensive sustainability experience, Euroland also offers the CSRD-Compliant Sustainability Performance and Disclosure Solution. Designed for CSRD-compliant companies — and for organizations that want to go beyond traditional ESG reporting — the solution brings together quantitative ESG performance with sustainability priorities, targets, policies and supporting narrative in one integrated digital environment.',
           'It also supports the presentation of Double Materiality, helping companies clearly communicate both how sustainability matters affect the business and how the company impacts people, society and the environment. By combining performance data, strategic priorities, material topics and disclosure content, the solution creates a richer and more connected view of the company’s sustainability journey.',
@@ -470,6 +604,12 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
             src: '/assets/clients/live-examples/sustainability/billerud.png',
             alt: 'Billerud',
             height: 40,
+            href: 'https://www.billerud.com/sustainability/reporting-and-data/sustainability-data',
+          },
+          {
+            src: '/assets/clients/live-examples/sustainability/csrd-billerud.png',
+            alt: 'Billerud CSRD sustainability data — Environmental and Social',
+            preview: true,
             href: 'https://www.billerud.com/sustainability/reporting-and-data/sustainability-data',
           },
         ],
