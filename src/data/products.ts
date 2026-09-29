@@ -262,7 +262,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     mediaType: 'video',
-    videoSrc: '/assets/ai.mp4',
+    videoSrc: '/assets/ai-promo.mp4',
     videoPoster: '',
     videoCaption: 'Purpose-built AI for investor relations.',
   },
