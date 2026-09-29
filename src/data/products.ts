@@ -5,6 +5,8 @@ export type ProductSlug =
 
 export type ProductFeature = {
   title: string
+  /** Optional line flush under the title (e.g. product names list) */
+  lead?: string
   description?: string
 }
 
@@ -51,6 +53,8 @@ export type ProductTabBlock = {
   introHeading?: string
   /** When true, heading uses Live examples typestyle (ink / 24 / 300) */
   headingAsLiveExamples?: boolean
+  /** Optional line flush under the card title (e.g. product names list) */
+  lead?: string
   description?: string[]
   featuresSection?: ProductFeaturesSection
   liveExamples?: ProductLiveExample[]
@@ -167,43 +171,43 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       {
         src: '/assets/clients/live-examples/ai-assistant/experian_full_colour-1.png',
         alt: 'Experian',
-        height: 36,
+        height: 44,
         href: 'https://www.experianplc.com/investors/',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-420.png',
         alt: 'Luberef',
-        height: 48,
+        height: 36,
         href: 'https://www.luberef.com/en/investors-relations',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-427.png',
         alt: 'First Abu Dhabi Bank',
-        height: 48,
+        height: 36,
         href: 'https://www.bankfab.com/en-ae/about-fab/investor-relations',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-428.png',
         alt: 'Alinma Bank',
-        height: 40,
+        height: 36,
         href: 'https://ir.alinma.com/',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-429.png',
         alt: 'Nahdi',
-        height: 40,
+        height: 36,
         href: 'https://investors.nahdi.sa/',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-430.png',
         alt: 'NADEC',
-        height: 48,
+        height: 36,
         href: 'https://ir.nadec.com.sa/en/',
       },
       {
         src: '/assets/clients/live-examples/ai-assistant/image-431.png',
         alt: 'e&',
-        height: 48,
+        height: 36,
         href: 'https://www.eand.com/en/investors/share-information.html',
       },
       {
@@ -215,25 +219,25 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       {
         src: '/assets/clients/live-examples/ai-assistant/image-433.png',
         alt: 'Alpha Dhabi',
-        height: 40,
+        height: 36,
         href: 'https://alphadhabi.com/investor-relations-overview/',
       },
       {
-        src: '/assets/clients/live-examples/ai-assistant/image-434.png',
+        src: '/assets/clients/live-examples/ai-assistant/omantel.png',
         alt: 'Omantel',
-        height: 32,
+        height: 44,
         href: 'https://ir.omantel.om/',
       },
       {
-        src: '/assets/clients/live-examples/ai-assistant/image-435.png',
+        src: '/assets/clients/live-examples/ai-assistant/givaudan.png',
         alt: 'Givaudan',
-        height: 28,
+        height: 44,
         href: 'https://www.givaudan.com/investors',
       },
       {
-        src: '/assets/clients/live-examples/ai-assistant/image-436.png',
+        src: '/assets/clients/live-examples/ai-assistant/corbion.png',
         alt: 'Corbion',
-        height: 48,
+        height: 44,
         href: 'https://www.corbion.com/investor-relations',
       },
     ],
@@ -259,7 +263,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
     ],
     mediaType: 'video',
     videoSrc: '/assets/ai.mp4',
-    videoPoster: '/assets/products/ai-assistant-card.png',
+    videoPoster: '',
     videoCaption: 'Purpose-built AI for investor relations.',
   },
   'interactive-analysis-tool': {
@@ -350,8 +354,10 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
           features: [
             {
               title: 'Share Analysis',
+              lead:
+                'Share Graph, Share Overview, Historical Price Look-up, Investment Calculator. Share Alerts, Shareholder Structure, Dividend solutions.',
               description:
-                'Share Graph, Share Overview, Historical Price Look-up, Investment Calculator, Share Alerts, Shareholder Structure, Dividend solutions. Turn share data into meaningful investor insight. A comprehensive suite of interactive tools that gives investors a clearer view of share performance, valuation and shareholder returns. From a concise Share Overview and historical Share Price Lookup, to advanced real-time Share Graph Monitoring with peer and index comparisons, investors can analyze performance using indicators such as dividends, earnings, total return, moving averages and relative strength. The suite also includes Share Price Alerts, an Investment Calculator, and Total Shareholder Return analysis, enabling investors to monitor key price movements, evaluate investment performance and assess the impact of dividends and corporate actions over time.',
+                'Turn share data into meaningful investor insight. A comprehensive suite of interactive tools that gives investors a clearer view of share performance, valuation and shareholder returns. From a concise Share Overview and historical Share Price Lookup, to advanced real-time Share Graph Monitoring with peer and index comparisons, investors can analyze performance using indicators such as dividends, earnings, total return, moving averages and relative strength.\n\nThe suite also includes Share Price Alerts, an Investment Calculator, and Total Shareholder Return analysis, enabling investors to monitor key price movements, evaluate investment performance and assess the impact of dividends and corporate actions over time.',
             },
           ],
         },
@@ -367,8 +373,9 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
           {
             introEyebrow: 'Analyst Coverage',
             eyebrowAsFeatures: true,
+            lead: 'Analyst List with Ratings, Recommendation Overview, Consensus Estimates',
             description: [
-              'Analyst List with Rating, Recommendation Overview, Consensus Estimates. Build trust through transparent access to analyst coverage. Present recommendation trends, consensus views, current and target prices, and historical changes through dynamic visual tools that make market sentiment easier to understand.',
+              'Build trust through transparent access to analyst coverage. Present recommendation trends, consensus views, current and target prices, and historical changes through dynamic visual tools that make market sentiment easier to understand.',
               'The Consensus Estimates Solution adds forward-looking insight across upcoming reporting periods and financial years, presenting aggregated analyst estimates alongside the latest actual results for a clearer view of market expectations.',
             ],
             liveExamples: [
@@ -462,6 +469,13 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
             },
           ],
         },
+        liveExamples: [
+          {
+            src: '/assets/clients/live-examples/market-overview/bahri-daily-market-overview.png',
+            alt: 'Bahri Daily Market Overview',
+            preview: true,
+          },
+        ],
       },
       {
         id: 'ir-application',
@@ -483,7 +497,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
             src: '/assets/clients/live-examples/burgan.png',
             alt: 'Burgan Bank',
             height: 28,
-            href: 'http://www.myirapp.com/burgan',
+            href: 'http://www.myirapp.com/burganbank/',
           },
           {
             src: '/assets/clients/live-examples/deyaar.png',
@@ -494,15 +508,15 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
           {
             src: '/assets/clients/live-examples/saudi-energy.png',
             alt: 'Saudi Energy',
-            height: 28,
+            height: 48,
             href: 'https://myirapp.com/saudienergy/',
           },
         ],
       },
     ],
     mediaType: 'video',
-    videoSrc: '/assets/iat.mp4',
-    videoPoster: '/assets/products/iat-card.jpg',
+    videoSrc: '/assets/ir-tools.mp4',
+    videoPoster: '',
     videoCaption: 'Self-serve financial analysis designed for investor engagement.',
   },
   'artificial-intelligence': {
@@ -590,9 +604,9 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
       {
         id: 'csrd',
-        label: 'Compliant Sustainability Performance & Disclosure solution',
+        label: 'CSRD-Compliant Sustainability Performance & Disclosure solution',
         introEyebrow:
-          'Compliant Sustainability Performance & Disclosure solution',
+          'CSRD-Compliant Sustainability Performance & Disclosure solution',
         description: [
           'For companies looking to deliver a more comprehensive sustainability experience, Euroland also offers the CSRD-Compliant Sustainability Performance and Disclosure Solution. Designed for CSRD-compliant companies — and for organizations that want to go beyond traditional ESG reporting — the solution brings together quantitative ESG performance with sustainability priorities, targets, policies and supporting narrative in one integrated digital environment.',
           'It also supports the presentation of Double Materiality, helping companies clearly communicate both how sustainability matters affect the business and how the company impacts people, society and the environment. By combining performance data, strategic priorities, material topics and disclosure content, the solution creates a richer and more connected view of the company’s sustainability journey.',
@@ -616,8 +630,8 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     mediaType: 'video',
-    videoSrc: '/assets/ai.mp4',
-    videoPoster: '/assets/products/esg-card.jpg',
+    videoSrc: '/assets/esg-promo.mp4',
+    videoPoster: '',
     videoCaption: 'ESG storytelling and sustainability performance for investors.',
   },
 }

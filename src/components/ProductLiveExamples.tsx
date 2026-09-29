@@ -5,6 +5,8 @@ import { useProductScrollReveal } from '../hooks/useProductScrollReveal'
 type ProductLiveExamplesProps = {
   product: ProductContent
   headingId?: string
+  /** Override the default "Live Example" heading */
+  heading?: string
   /** When set, use this logo list instead of the primary liveExamples */
   logos?: ProductLiveExample[]
   /** Static row — no marquee, no repetition */
@@ -24,16 +26,20 @@ type LiveExamplesMarqueeProps = {
 function LiveExampleLogo({
   logo,
   alt,
+  size,
 }: {
   logo: ProductLiveExample
   alt: string
+  /** When set, all logos in a row share this display height */
+  size?: number
 }) {
+  const height = size ?? logo.height ?? 36
   const img = (
     <img
       src={logo.src}
       alt={alt}
-      height={logo.height ?? 36}
-      style={{ height: logo.height ?? 36 }}
+      height={height}
+      style={{ height, width: 'auto' }}
       loading="lazy"
       draggable={false}
     />
@@ -57,7 +63,7 @@ function LiveExampleLogo({
 function LiveExamplesMarquee({
   logos,
   direction = 'rtl',
-  label = 'Live examples',
+  label = 'Live Example',
 }: LiveExamplesMarqueeProps) {
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -237,6 +243,7 @@ function LiveExamplesMarquee({
 export function ProductLiveExamples({
   product,
   headingId = 'product-live-examples-heading',
+  heading = 'Live Example',
   logos: logosProp,
   static: isStatic = false,
 }: ProductLiveExamplesProps) {
@@ -278,16 +285,16 @@ export function ProductLiveExamples({
     isStatic || hasPreview ? (
       <ul
         className="product-explained__logos product-explained__logos--static"
-        aria-label="Live examples"
+        aria-label={heading}
       >
         {brandLogos.map((logo) => (
           <li key={logo.src} className="product-explained__logo">
-            <LiveExampleLogo logo={logo} alt={logo.alt} />
+            <LiveExampleLogo logo={logo} alt={logo.alt} size={logo.height ?? 36} />
           </li>
         ))}
       </ul>
     ) : (
-      <LiveExamplesMarquee logos={brandLogos} direction="rtl" />
+      <LiveExamplesMarquee logos={brandLogos} direction="rtl" label={heading} />
     )
   ) : null
 
@@ -301,7 +308,7 @@ export function ProductLiveExamples({
     >
       <div className="product-explained__live">
         <h2 className="product-explained__live-heading" id={headingId}>
-          Live examples
+          {heading}
         </h2>
         {logosRow}
         {hasPreview

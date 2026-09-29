@@ -10,6 +10,8 @@ type ProductIntroProps = {
   heading?: string
   /** Live examples typestyle (ink / 24 / 300) instead of body copy heading */
   headingAsLiveExamples?: boolean
+  /** Optional line flush under the card title */
+  lead?: string
   description?: string[]
   sectionId?: string
   headingId?: string
@@ -29,6 +31,7 @@ export function ProductIntro({
   eyebrowAsFeatures = false,
   heading,
   headingAsLiveExamples = false,
+  lead,
   description,
   sectionId = 'product-intro',
   headingId = 'product-intro-heading',
@@ -39,13 +42,13 @@ export function ProductIntro({
   const introEyebrow = eyebrow ?? product.introEyebrow
   const introHeading = heading ?? product.introHeading
   const introDescription = description ?? product.description
-  const hasLead = Boolean(introEyebrow || introHeading)
+  const hasLead = Boolean(introEyebrow || introHeading || lead)
   const resolvedVariant =
     variant === 'default' && eyebrowAsFeatures ? 'card' : variant
 
   useProductScrollReveal(embedded ? { current: null } : sectionRef, {
     items:
-      '.product-intro__eyebrow, .product-features__heading, .product-intro__heading, .product-explained__live-heading, .product-intro__copy p',
+      '.product-intro__eyebrow, .product-features__heading, .product-intro__heading, .product-explained__live-heading, .product-intro__lead-line, .product-intro__copy p',
   })
 
   const className = [
@@ -83,6 +86,7 @@ export function ProductIntro({
               {introHeading}
             </h2>
           ) : null}
+          {lead ? <p className="product-intro__lead-line">{lead}</p> : null}
         </div>
       ) : null}
       {introDescription.length > 0 ? (

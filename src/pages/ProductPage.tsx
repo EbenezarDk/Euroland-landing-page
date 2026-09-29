@@ -134,6 +134,9 @@ function renderTabDetail(product: ProductContent, tab: ProductTabSection) {
           <ProductLiveExamples
             product={product}
             headingId={`product-live-examples-heading-${tab.id}`}
+            heading={
+              tab.id === 'sustainability-performance' ? 'Live Examples' : undefined
+            }
             logos={tab.liveExamples}
             static
           />
@@ -147,6 +150,7 @@ function renderTabDetail(product: ProductContent, tab: ProductTabSection) {
           <ProductFollowBand key={blockKey} tone={tone}>
             {block.introHeading ||
             block.introEyebrow ||
+            block.lead ||
             block.description?.length ? (
               <ProductIntro
                 product={product}
@@ -154,6 +158,7 @@ function renderTabDetail(product: ProductContent, tab: ProductTabSection) {
                 eyebrow={block.introEyebrow}
                 heading={block.introHeading ?? ''}
                 headingAsLiveExamples={block.headingAsLiveExamples}
+                lead={block.lead}
                 description={block.description ?? []}
                 sectionId={`product-intro-${blockKey}`}
                 headingId={`product-intro-heading-${blockKey}`}
@@ -338,6 +343,7 @@ export function ProductPage() {
       >
         {hasAiSubTabs ? (
           <>
+            <ProductPageLead product={product} mediaKey={`${product.slug}-ai`} />
             <div
               role="tabpanel"
               id="product-panel-ai-assistant"
@@ -346,7 +352,6 @@ export function ProductPage() {
               hidden={aiTab !== 'ai-assistant'}
               tabIndex={aiTab === 'ai-assistant' ? 0 : -1}
             >
-              <ProductPageLead product={product} mediaKey={`${product.slug}-ai`} />
               <ProductDetailBand>
                 <ProductIntro
                   product={product}
@@ -374,10 +379,6 @@ export function ProductPage() {
               hidden={aiTab !== 'podcast-series'}
               tabIndex={aiTab === 'podcast-series' ? 0 : -1}
             >
-              <ProductPageLead
-                product={product}
-                mediaKey={`${product.slug}-podcast`}
-              />
               {product.secondaryFeatures ? (
                 <ProductDetailBand>
                   <ProductIntro
@@ -418,33 +419,35 @@ export function ProductPage() {
             </div>
           </>
         ) : hasProductTabs && productTabs ? (
-          productTabs.map((tab) => {
-            const selected = activeProductTab === tab.id
-            return (
-              <div
-                key={tab.id}
-                role="tabpanel"
-                id={`product-panel-${tab.id}`}
-                aria-labelledby={`product-tab-${tab.id}`}
-                className="product-page__panel"
-                hidden={!selected}
-                tabIndex={selected ? 0 : -1}
-              >
-                <ProductPageLead
-                  product={product}
-                  mediaKey={`${product.slug}-${tab.id}`}
-                />
-                {tab.explained ? (
-                  <ProductExplained
-                    product={product}
-                    section={tab.explained}
-                    headingId={`product-explained-heading-${tab.id}`}
-                  />
-                ) : null}
-                {renderTabDetail(product, tab)}
-              </div>
-            )
-          })
+          <>
+            <ProductPageLead
+              product={product}
+              mediaKey={`${product.slug}-media`}
+            />
+            {productTabs.map((tab) => {
+              const selected = activeProductTab === tab.id
+              return (
+                <div
+                  key={tab.id}
+                  role="tabpanel"
+                  id={`product-panel-${tab.id}`}
+                  aria-labelledby={`product-tab-${tab.id}`}
+                  className="product-page__panel"
+                  hidden={!selected}
+                  tabIndex={selected ? 0 : -1}
+                >
+                  {tab.explained ? (
+                    <ProductExplained
+                      product={product}
+                      section={tab.explained}
+                      headingId={`product-explained-heading-${tab.id}`}
+                    />
+                  ) : null}
+                  {renderTabDetail(product, tab)}
+                </div>
+              )
+            })}
+          </>
         ) : product.blocks?.length ? (
           product.blocks.map((block, blockIndex) => {
             const blockKey = `${product.slug}-block-${blockIndex}`
@@ -452,6 +455,7 @@ export function ProductPage() {
               <div key={blockKey} className="product-tab-block">
                 {block.introHeading ||
                 block.introEyebrow ||
+                block.lead ||
                 block.description?.length ? (
                   <ProductIntro
                     product={product}
@@ -459,6 +463,7 @@ export function ProductPage() {
                     eyebrowAsFeatures={block.eyebrowAsFeatures}
                     heading={block.introHeading ?? ''}
                     headingAsLiveExamples={block.headingAsLiveExamples}
+                    lead={block.lead}
                     description={block.description ?? []}
                     sectionId={`product-intro-${blockKey}`}
                     headingId={`product-intro-heading-${blockKey}`}

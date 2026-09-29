@@ -99,9 +99,21 @@ export function ProductFeatures({
                   layout === 'titleOnly' ? ' product-features__card--title-only' : ''
                 }`}
               >
-                <h3 className="product-features__title">{feature.title}</h3>
+                <div className="product-features__header">
+                  <h3 className="product-features__title">{feature.title}</h3>
+                  {feature.lead ? (
+                    <p className="product-features__lead-line">{feature.lead}</p>
+                  ) : null}
+                </div>
                 {feature.description ? (
-                  <p className="product-features__text">{feature.description}</p>
+                  <p className="product-features__text">
+                    {feature.description.split('\n').map((line, lineIndex, lines) => (
+                      <span key={lineIndex}>
+                        {line}
+                        {lineIndex < lines.length - 1 ? <br /> : null}
+                      </span>
+                    ))}
+                  </p>
                 ) : null}
               </li>
             )

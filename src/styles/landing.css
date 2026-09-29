@@ -567,7 +567,7 @@
   /* Full-bleed band; content keeps universal --page-pad + 1520 max align */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2.1vw, 40px);
+  gap: 12px;
   box-sizing: border-box;
   width: 100vw;
   max-width: 100vw;
@@ -614,60 +614,32 @@
   --about-card-accent: #022749;
 }
 
-.about__card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-}
-
-.about__card-mark {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  color: var(--about-card-accent, var(--color-cyan));
-  background: color-mix(in srgb, var(--about-card-accent, var(--color-cyan)) 10%, transparent);
-}
-
 .about__card-title {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 0.35em;
   margin: 0;
-  min-width: 0;
-  flex: 1;
-}
-
-.about__card-stat {
+  white-space: nowrap;
   font-family: var(--font-sans);
-  font-size: clamp(40px, 4.2vw, 56px);
+  font-size: 24px;
   font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  line-height: normal;
   color: var(--about-card-accent, var(--color-cyan));
 }
 
-.about__card-stat--text {
-  font-size: clamp(28px, 3vw, 36px);
-  letter-spacing: -0.02em;
-}
-
+.about__card-stat,
+.about__card-stat--text,
 .about__card-label {
-  font-family: var(--font-sans);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--color-ink);
+  font: inherit;
+  letter-spacing: normal;
+  color: inherit;
+  white-space: nowrap;
 }
 
 .about__card-text {
   margin: 0;
-  margin-top: auto;
   font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 300;
@@ -864,6 +836,7 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.3;
+  text-transform: uppercase;
   color: var(--color-cta);
   background: rgba(0, 100, 181, 0.05);
   backdrop-filter: blur(10px);
@@ -2011,14 +1984,6 @@
 
   .about__card {
     padding: 28px 24px 32px;
-  }
-
-  .about__card-stat {
-    font-size: 42px;
-  }
-
-  .about__card-stat--text {
-    font-size: 28px;
   }
 
   .about__entry-body {

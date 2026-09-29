@@ -211,19 +211,59 @@ export function ProductMedia({ product }: ProductMediaProps) {
     if (!(video instanceof HTMLVideoElement) || !root) return
     if (prefersReducedMotion()) return
 
+    let inView = false
+    let audioUnlocked = false
+
+    const playInView = () => {
+      if (!inView) return
+      video.muted = false
+      void video.play().catch(() => {
+        // Autoplay with sound blocked until a user gesture.
+        video.muted = true
+        void video.play().catch(() => {})
+      })
+    }
+
+    const stopOutOfView = () => {
+      video.muted = true
+      video.pause()
+    }
+
+    const unlockAudio = () => {
+      audioUnlocked = true
+      if (inView) {
+        video.muted = false
+        void video.play().catch(() => {})
+      }
+    }
+
+    window.addEventListener('pointerdown', unlockAudio)
+    window.addEventListener('keydown', unlockAudio)
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          void video.play().catch(() => {})
+        inView = entry.isIntersecting
+        if (inView) {
+          if (audioUnlocked) {
+            video.muted = false
+            void video.play().catch(() => {})
+          } else {
+            playInView()
+          }
         } else {
-          video.pause()
+          stopOutOfView()
         }
       },
       { threshold: 0.2 },
     )
 
     observer.observe(root)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('pointerdown', unlockAudio)
+      window.removeEventListener('keydown', unlockAudio)
+      stopOutOfView()
+    }
   }, [product.slug, isImage])
 
   return (
@@ -245,11 +285,11 @@ export function ProductMedia({ product }: ProductMediaProps) {
               ref={mediaRef as RefObject<HTMLVideoElement>}
               className="product-media__video"
               src={product.videoSrc}
-              poster={product.videoPoster}
+              {...(product.videoPoster ? { poster: product.videoPoster } : {})}
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={product.videoPoster ? 'metadata' : 'auto'}
               disablePictureInPicture
               aria-label={`${product.label} preview video`}
             />

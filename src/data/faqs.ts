@@ -9,13 +9,13 @@ export const FAQS: FaqItem[] = [
     id: '1',
     question: 'What does Euroland IR provide?',
     answer:
-      'Euroland IR delivers best-practice investor relations tools and services — from share graphs and interactive analysis to AI-assisted experiences — so listed companies can engage investors with clarity and confidence.',
+      'Euroland IR delivers best-practice investor relations tools and services - from share graphs and interactive analysis to AI-assisted experiences - so listed companies can engage investors with clarity and confidence.',
   },
   {
     id: '2',
     question: 'How long does implementation take?',
     answer:
-      'Most projects go live in 2–6 weeks, depending on scope. Standard Share Graph and analysis embeds are typically faster, while deeper AI integrations or custom IR hubs may take longer.',
+      'Depending on the scope, implementation typically takes between 4-6 weeks. AI solutions are quick to integrate, requiring only a few lines of code to be embedded into the IR section.',
   },
   {
     id: '3',
