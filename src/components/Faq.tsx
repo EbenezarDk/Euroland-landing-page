@@ -1,17 +1,25 @@
-import { useId, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { FAQS } from '../data/faqs'
+import { FAQS, type FaqItem } from '../data/faqs'
 import { scrubRevealIn } from '../hooks/useProductScrollReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function Faq() {
+type FaqProps = {
+  items?: FaqItem[]
+}
+
+export function Faq({ items = FAQS }: FaqProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const baseId = useId()
-  const [openId, setOpenId] = useState<string | null>(FAQS[0]?.id ?? null)
+  const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null)
   const reduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    setOpenId(items[0]?.id ?? null)
+  }, [items])
 
   const panelTransition = reduceMotion
     ? { duration: 0 }
@@ -60,7 +68,7 @@ export function Faq() {
       window.removeEventListener('orientationchange', onResize)
       ctx.revert()
     }
-  }, [])
+  }, [items])
 
   return (
     <section
@@ -77,7 +85,7 @@ export function Faq() {
         </header>
 
         <ul className="faq__list">
-          {FAQS.map((item, index) => {
+          {items.map((item, index) => {
             const isOpen = openId === item.id
             const panelId = `${baseId}-panel-${item.id}`
             const buttonId = `${baseId}-button-${item.id}`

@@ -136,7 +136,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                   type="text"
                   required
                   autoComplete="name"
-                  placeholder="Dineshkumar"
+                  placeholder="Ex. Ebenezar"
                 />
               </label>
               <label className="field">
@@ -149,7 +149,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                   type="email"
                   required
                   autoComplete="email"
-                  placeholder="xyz@euroland.com"
+                  placeholder="Ex. xyz@company.com"
                 />
               </label>
             </div>
@@ -165,7 +165,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                   type="text"
                   required
                   autoComplete="organization"
-                  placeholder="Euroland IR India"
+                  placeholder="Ex. Euroland IR India"
                 />
               </label>
               <fieldset className="field field--phone">
@@ -289,7 +289,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                 name="role"
                 type="text"
                 autoComplete="organization-title"
-                placeholder="Investor Relations Manager"
+                placeholder="Ex. Investor Relations Manager"
               />
             </label>
 

@@ -198,7 +198,7 @@
 }
 
 .product-intro--page .product-intro__copy {
-  gap: 0;
+  gap: 16px;
 }
 
 .product-intro--page .product-intro__copy p {
@@ -206,10 +206,6 @@
   font-weight: 400;
   line-height: 26px;
   color: var(--color-ink);
-}
-
-.product-intro--page .product-intro__copy p + p {
-  margin-top: 0;
 }
 
 /* ─── Detail band (#F8F8F8): navy panel + cards + live examples, gap 40 ─── */
@@ -233,6 +229,22 @@
 
 .product-detail-band > .product-intro {
   margin: 0;
+}
+
+.product-detail-band > .product-detail-media {
+  margin: 0;
+  width: 100%;
+  overflow: visible;
+  border-radius: clamp(12px, 2vw, 22px);
+  background: var(--color-white);
+}
+
+.product-detail-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .product-follow-band {

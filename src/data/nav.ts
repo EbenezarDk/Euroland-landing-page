@@ -1,13 +1,13 @@
 export const NAV_ITEMS = [
   { label: 'About Us', to: '/', hash: 'hero', match: '/' },
-  { label: 'Purpose-Built AI for IR', to: '/share-graph', match: '/share-graph' },
+  { label: 'Share Graph', to: '/share-graph', match: '/share-graph' },
   {
-    label: 'IR solutions',
+    label: 'Interactive Analysis Tool',
     to: '/interactive-analysis-tool',
     match: '/interactive-analysis-tool',
   },
   {
-    label: 'ESG solutions',
+    label: 'Artificial Intelligence',
     to: '/artificial-intelligence',
     match: '/artificial-intelligence',
   },

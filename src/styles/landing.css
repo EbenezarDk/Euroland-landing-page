@@ -629,6 +629,19 @@
   color: var(--about-card-accent, var(--color-cyan));
 }
 
+/* Longer title: wrap so it fills the card width instead of clipping */
+.about__card--security .about__card-title {
+  flex-wrap: wrap;
+  width: 100%;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.about__card--security .about__card-stat--text,
+.about__card--security .about__card-label {
+  white-space: normal;
+}
+
 .about__card-stat,
 .about__card-stat--text,
 .about__card-label {

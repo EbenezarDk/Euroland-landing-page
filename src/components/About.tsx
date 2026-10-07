@@ -1,45 +1,59 @@
 import { useEffect, type RefObject } from 'react'
 import { Link } from 'react-router-dom'
 
-const CLIENT_LOGOS_SET_1 = Array.from({ length: 31 }, (_, i) => ({
-  src: `/assets/clients/logo-${String(i + 1).padStart(3, '0')}.png`,
-  alt: `Client logo ${i + 1}`,
-  height: 42,
-}))
+const CLIENT_LOGOS = [
+  { src: '/assets/clients/carlsberg.png', alt: 'Carlsberg', height: 32 },
+  { src: '/assets/clients/emaar.png', alt: 'Emaar', height: 28 },
+  { src: '/assets/clients/atlas-copco.png', alt: 'Atlas Copco', height: 34 },
+  { src: '/assets/clients/hkex.png', alt: 'HKEX', height: 34 },
+  { src: '/assets/clients/prosiebensat1.png', alt: 'ProSiebenSat.1', height: 28 },
+  { src: '/assets/clients/swisscom.png', alt: 'Swisscom', height: 34 },
+  { src: '/assets/clients/standard-chartered.png', alt: 'Standard Chartered', height: 34 },
+  { src: '/assets/clients/ing.png', alt: 'ING', height: 30 },
+  { src: '/assets/clients/moncler.png', alt: 'Moncler Group', height: 32 },
+  { src: '/assets/clients/assa-abloy.png', alt: 'ASSA ABLOY', height: 28 },
+  { src: '/assets/clients/sanoma.png', alt: 'Sanoma', height: 26 },
+  { src: '/assets/clients/magnum.png', alt: 'The Magnum Ice Cream Company', height: 34 },
+  { src: '/assets/clients/santander.png', alt: 'Santander', height: 32 },
+  { src: '/assets/clients/rio-tinto.png', alt: 'Rio Tinto', height: 30 },
+  { src: '/assets/clients/etisalat.png', alt: 'e&', height: 36 },
+  { src: '/assets/clients/experian.png', alt: 'Experian', height: 32 },
+  { src: '/assets/clients/repsol.png', alt: 'Repsol', height: 32 },
+  { src: '/assets/clients/eni.png', alt: 'Eni', height: 34 },
+  { src: '/assets/clients/sony.png', alt: 'Sony', height: 26 },
+  { src: '/assets/clients/asml.png', alt: 'ASML', height: 28 },
+] as const
 
-const CLIENT_LOGOS_SET_2 = Array.from({ length: 30 }, (_, i) => ({
-  src: `/assets/clients/set-2/logo-${String(i + 1).padStart(3, '0')}.png`,
-  alt: `Client logo ${i + 32}`,
-  height: 42,
-}))
+const CLIENT_LOGOS_SET_1 = CLIENT_LOGOS.slice(0, 10)
+const CLIENT_LOGOS_SET_2 = CLIENT_LOGOS.slice(10)
 
 const PRODUCT_ENTRIES = [
   {
     path: '/share-graph',
-    tag: 'Purpose-Built AI for IR',
-    title: 'The IR team just got bigger.',
+    tag: 'SHARE GRAPH',
+    title: 'Share Graph',
     description:
-      'Let AI handle the routine so you can focus on strategy, relationships and what matters most.',
-    image: '/assets/products/ai-assistant-card.png',
-    imageAlt: 'Stacked IR service cubes with AI highlighted',
+      'Present your share performance through interactive charts, peer benchmarks, and corporate events that help investors understand how market and company events affect share performance.',
+    image: '/assets/products/share-graph-card.jpg',
+    imageAlt: 'Financial charts on a laptop screen',
   },
   {
     path: '/interactive-analysis-tool',
-    tag: 'BEST-PRACTICE IR SOLUTIONS',
-    title: 'Transform your IR website into an intelligent Investor Hub.',
+    tag: 'INTERACTIVE ANALYSIS TOOL',
+    title: 'Interactive Analysis Tool',
     description:
-      'Tell your equity story more effectively, improve the investor experience and strengthen your AI readiness.',
+      'Help investors explore financial fundamentals, ratios, and historical data using easy-to-use filters.',
     image: '/assets/products/iat-card.jpg',
     imageAlt: 'Analytics dashboard with charts and graphs',
   },
   {
     path: '/artificial-intelligence',
-    tag: 'ESG SOLUTIONS',
-    title: 'Turn ESG into a compelling investor story.',
+    tag: 'AI-POWERED INVESTOR RELATIONS',
+    title: 'AI-Powered Investor Relations',
     description:
-      'Present measurable performance and connect the numbers with your sustainability strategy, targets and commitments.',
-    image: '/assets/products/esg-card.jpg',
-    imageAlt: 'ESG pillars on a glowing Earth sustainability path',
+      'Use AI to summarise filings, identify key market developments, and help IR teams respond more efficiently.',
+    image: '/assets/products/ai-card.jpg',
+    imageAlt: 'Abstract artificial intelligence visualization',
   },
 ] as const
 
@@ -244,7 +258,7 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
   const renderLogoRow = (
     rowKey: string,
     direction: 'rtl' | 'ltr',
-    logos: typeof CLIENT_LOGOS_SET_1,
+    logos: readonly (typeof CLIENT_LOGOS)[number][],
   ) => (
     <div className="about__logos-row">
       <div
@@ -284,20 +298,25 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
               About Euroland IR
             </h2>
             <p className="about__text">
-              Euroland IR is your strategic partner for digital Investor Relations
-              solutions designed to strengthen credibility, improve investor access,
-              and communicate company value with clarity.
+              Euroland IR provides investor relations solutions that help listed
+              companies communicate effectively with investors and strengthen investor
+              engagement.
             </p>
             <p className="about__text">
-              Trusted by more than 1,400 listed companies worldwide, including 250+
-              across the Middle East and GCC, we deliver a comprehensive suite of IR
-              solutions—from real-time market data and AI Assistant to mobile IR apps,
-              Sustainability Performance solutions and specialized digital services.
+              Founded in 1986, Euroland IR has grown into a global investor relations
+              partner with offices in London, Dubai, Tokyo, Shanghai, Hong Kong, and
+              Chennai. We support listed companies across global markets, including
+              Asia, Europe, and the Middle East. With decades of experience in investor
+              relations and corporate communications, we bring industry knowledge and
+              expertise to help companies communicate effectively with investors.
             </p>
             <p className="about__text">
-              Our integrated approach helps listed companies enhance transparency,
-              elevate investor experience, and communicate more effectively across
-              increasingly competitive global capital markets.
+              Our tools and services help IR teams communicate company information
+              clearly and effectively with investors. Combining best-practice investor
+              relations solutions with innovative financial technology to help companies
+              engage investors more effectively. Our digital solutions help listed
+              companies present financial and corporate information clearly, build
+              investor confidence, and communicate more effectively.
             </p>
           </div>
 
@@ -358,9 +377,8 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
           <div className="about__solutions-copy">
             <h2 className="about__solutions-heading">Our solutions</h2>
             <p className="about__solutions-text">
-              Explore Euroland IR tools designed to present your equity story
-              with clarity — from interactive share performance and self-serve
-              analysis to AI-assisted investor engagement.
+              Explore solutions designed to help you present your company clearly —
+              from interactive share performance and analysis to AI-powered IR tools.
             </p>
           </div>
 
