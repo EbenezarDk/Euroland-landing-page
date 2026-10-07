@@ -303,8 +303,8 @@ export function About({ sectionRef, cardsRef, logosRef }: AboutProps) {
               engagement.
             </p>
             <p className="about__text">
-              Founded in 1986, Euroland IR has grown into a global investor relations
-              partner with offices in London, Dubai, Tokyo, Shanghai, Hong Kong, and
+              Euroland IR is a successful and profitable company with over 1,400
+              clients, with offices in London, Dubai, Tokyo, Shanghai, Hong Kong, and
               Chennai. We support listed companies across global markets, including
               Asia, Europe, and the Middle East. With decades of experience in investor
               relations and corporate communications, we bring industry knowledge and
