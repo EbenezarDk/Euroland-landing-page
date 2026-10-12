@@ -137,7 +137,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         ],
       },
     ],
-    detailImage: '/assets/share-graph-preview.png',
+    detailImage: '/assets/shareprice-image.png',
     detailImageAlt: 'Share Graph — interactive share performance chart',
     featuresHeading: 'Features',
     features: [
@@ -201,7 +201,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     mediaType: 'image',
-    videoSrc: '/assets/share-graph-preview.png',
+    videoSrc: '/assets/shareprice-image.png',
     videoPoster: '',
     videoCaption: 'Interactive share performance for investor relations.',
   },
@@ -234,7 +234,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         ],
       },
     ],
-    detailImage: '/assets/iat-explained.png',
+    detailImage: '/assets/IAT-mockup1.png',
     detailImageAlt: 'Interactive Analysis Tool — key figures and financial performance',
     featuresHeading: 'Features',
     features: [
@@ -298,7 +298,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     mediaType: 'image',
-    videoSrc: '/assets/iat-explained.png',
+    videoSrc: '/assets/IAT-mockup1.png',
     videoPoster: '',
     videoCaption: 'Self-serve financial analysis designed for investor engagement.',
   },
@@ -331,7 +331,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
         ],
       },
     ],
-    detailImage: '/assets/ai-explained.png',
+    detailImage: '/assets/ai.png',
     detailImageAlt: 'AI-Powered Investor Relations — intelligent IR assistant',
     liveExamples: [
       {
@@ -378,7 +378,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     mediaType: 'image',
-    videoSrc: '/assets/ai-explained.png',
+    videoSrc: '/assets/ai.png',
     videoPoster: '',
     videoCaption: 'Purpose-built AI for investor relations.',
   },

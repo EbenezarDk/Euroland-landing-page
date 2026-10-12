@@ -9,6 +9,10 @@ export function ProductBanner({ product }: ProductBannerProps) {
   const bannerImage = product.detailImage ?? product.videoSrc
   const bannerAlt = product.detailImageAlt ?? `${product.label} preview`
   const hasBannerMedia = Boolean(bannerImage)
+  const knockOutBlackBg =
+    product.slug === 'share-graph' ||
+    product.slug === 'interactive-analysis-tool' ||
+    product.slug === 'artificial-intelligence'
 
   return (
     <section
@@ -51,7 +55,9 @@ export function ProductBanner({ product }: ProductBannerProps) {
         </div>
 
         {hasBannerMedia ? (
-          <figure className="product-banner__media">
+          <figure
+            className={`product-banner__media${knockOutBlackBg ? ' product-banner__media--knockout' : ''}`}
+          >
             <img
               src={bannerImage}
               alt={bannerAlt}

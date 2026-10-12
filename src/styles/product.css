@@ -12,6 +12,10 @@
   min-height: 72dvh;
 }
 
+.product-banner.product-banner--split {
+  align-items: stretch;
+}
+
 .product-banner__content {
   margin-top: 0;
   gap: 0;
@@ -19,13 +23,16 @@
 
 .product-banner--split .product-banner__content {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   gap: clamp(28px, 4vw, 64px);
+  box-sizing: border-box;
+  align-self: stretch;
   width: 100%;
-  max-width: 1520px;
-  margin-inline: auto;
+  max-width: none;
+  margin-inline: 0;
   margin-top: 0;
+  /* Match header logo / Let's Talk edges (--page-pad) */
   padding-inline: var(--page-pad);
   text-align: left;
 }
@@ -33,9 +40,11 @@
 .product-banner__copy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
+  justify-content: center;
   gap: 28px;
   min-width: 0;
+  width: 100%;
   text-align: left;
 }
 
@@ -43,6 +52,7 @@
 .product-banner--split .hero__subtitle .text-animate__line {
   text-align: left;
   width: 100%;
+  max-width: none;
 }
 
 .product-banner .hero__subtitle,
@@ -60,10 +70,7 @@
   margin: 0;
   min-width: 0;
   width: 100%;
-  border-radius: clamp(12px, 1.5vw, 20px);
-  overflow: hidden;
-  background: var(--color-white);
-  box-shadow: 0 24px 64px rgba(0, 2, 21, 0.28);
+  background: transparent;
 }
 
 .product-banner__media img {
@@ -71,7 +78,12 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  object-position: center top;
+  object-position: center;
+}
+
+.product-banner__media--knockout img {
+  /* Knock out solid black from stack mockup PNGs on the dark hero */
+  mix-blend-mode: lighten;
 }
 
 .product-page__body {

@@ -8,12 +8,16 @@ type EnquiryProps = {
 }
 
 const LOOKING_FOR_OPTIONS = [
-  { id: 'ir-tools', label: 'For IR tools' },
-  { id: 'ir-website', label: 'IR Website' },
+  { id: 'ir-tools', label: 'IR tools / IR website / Corporate website' },
+  { id: 'ir-website', label: 'Book a 120 days trials' },
   { id: 'services', label: 'Need to talk about the services' },
 ] as const
 
 const LOOKING_FOR_ALL = 'all' as const
+
+const COUNTRY_NAMES = Array.from(
+  new Set(COUNTRY_DIAL_CODES.map((country) => country.name)),
+)
 
 function normalizeDialCode(value: string) {
   const trimmed = value.trim()
@@ -30,10 +34,17 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
   const [dialOpen, setDialOpen] = useState(false)
   const [dialSearch, setDialSearch] = useState('')
   const [lookingFor, setLookingFor] = useState<string[]>([])
+  const [locationCountry, setLocationCountry] = useState('')
+  const [locationOpen, setLocationOpen] = useState(false)
+  const [locationSearch, setLocationSearch] = useState('')
   const dialRef = useRef<HTMLDivElement>(null)
   const dialSearchRef = useRef<HTMLInputElement>(null)
+  const locationRef = useRef<HTMLDivElement>(null)
+  const locationSearchRef = useRef<HTMLInputElement>(null)
   const listId = useId()
   const searchId = useId()
+  const locationListId = useId()
+  const locationSearchId = useId()
   const lookingForId = useId()
 
   const allLookingForIds = LOOKING_FOR_OPTIONS.map((option) => option.id)
@@ -77,6 +88,18 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
     return [...selectedFirst, ...rest]
   }, [dialSearch, selected.name])
 
+  const orderedLocationCountries = useMemo(() => {
+    const query = locationSearch.trim().toLowerCase()
+    const matches = (name: string) => !query || name.toLowerCase().includes(query)
+
+    const selectedFirst = locationCountry && matches(locationCountry) ? [locationCountry] : []
+    const rest = COUNTRY_NAMES.filter(
+      (name) => name !== locationCountry && matches(name),
+    )
+
+    return [...selectedFirst, ...rest]
+  }, [locationCountry, locationSearch])
+
   useEffect(() => {
     if (!dialOpen) {
       setDialSearch('')
@@ -101,22 +124,69 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
     }
   }, [dialOpen])
 
+  useEffect(() => {
+    if (!locationOpen) {
+      setLocationSearch('')
+      return
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!locationRef.current?.contains(event.target as Node)) {
+        setLocationOpen(false)
+      }
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setLocationOpen(false)
+    }
+
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [locationOpen])
+
+  function syncPhoneFromCountry(countryName: string) {
+    const match = COUNTRY_DIAL_CODES.find((country) => country.name === countryName)
+    if (!match) return
+    setDialCode(match.code)
+    setSelectedCountry(match.name)
+  }
+
+  function syncLocationFromCountry(countryName: string) {
+    setLocationCountry(countryName)
+  }
+
   function handleDialChange(value: string) {
     setDialCode(value)
     setDialOpen(true)
 
     const normalized = normalizeDialCode(value)
     const match = COUNTRY_DIAL_CODES.find((country) => country.code === normalized)
-    if (match) setSelectedCountry(match.name)
+    if (match) {
+      setSelectedCountry(match.name)
+      syncLocationFromCountry(match.name)
+    }
   }
 
   function openDialMenu(focusSearch = false) {
     setDialOpen(true)
+    setLocationOpen(false)
     if (focusSearch) {
       requestAnimationFrame(() => {
         dialSearchRef.current?.focus()
       })
     }
+  }
+
+  function openLocationMenu() {
+    setLocationOpen(true)
+    setDialOpen(false)
+    requestAnimationFrame(() => {
+      locationSearchRef.current?.focus()
+    })
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -192,6 +262,107 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                   required
                   autoComplete="organization"
                   placeholder="Ex. Euroland IR India"
+                />
+              </label>
+              <div className="field">
+                <span className="field__label" id={`${locationListId}-label`}>
+                  Your Location
+                </span>
+                <div
+                  className={`field__location${locationOpen ? ' field__location--open' : ''}`}
+                  ref={locationRef}
+                >
+                  <input type="hidden" name="location" value={locationCountry} />
+                  <button
+                    type="button"
+                    className="field__location-trigger"
+                    aria-labelledby={`${locationListId}-label`}
+                    aria-haspopup="listbox"
+                    aria-expanded={locationOpen}
+                    aria-controls={locationListId}
+                    onClick={() => {
+                      if (locationOpen) {
+                        setLocationOpen(false)
+                      } else {
+                        openLocationMenu()
+                      }
+                    }}
+                  >
+                    <span
+                      className={`field__location-value${locationCountry ? '' : ' field__location-value--placeholder'}`}
+                    >
+                      {locationCountry || 'Select country'}
+                    </span>
+                    <span className="field__location-caret" aria-hidden>
+                      <img src="/assets/caret-down.svg" alt="" />
+                    </span>
+                  </button>
+
+                  {locationOpen ? (
+                    <div className="field__location-menu" id={locationListId}>
+                      <div className="field__dial-search">
+                        <label className="visually-hidden" htmlFor={locationSearchId}>
+                          Search country
+                        </label>
+                        <input
+                          ref={locationSearchRef}
+                          id={locationSearchId}
+                          className="field__dial-search-input"
+                          type="search"
+                          value={locationSearch}
+                          onChange={(event) => setLocationSearch(event.target.value)}
+                          onMouseDown={(event) => event.stopPropagation()}
+                          placeholder="Search country"
+                          autoComplete="off"
+                        />
+                      </div>
+                      <ul
+                        className="field__dial-list"
+                        role="listbox"
+                        aria-label="Countries"
+                      >
+                        {orderedLocationCountries.length > 0 ? (
+                          orderedLocationCountries.map((name) => {
+                            const active = name === locationCountry
+                            return (
+                              <li key={name} role="option">
+                                <button
+                                  type="button"
+                                  className={`field__dial-option field__location-option${active ? ' field__dial-option--active' : ''}`}
+                                  aria-selected={active}
+                                  onMouseDown={(event) => event.preventDefault()}
+                                  onClick={() => {
+                                    setLocationCountry(name)
+                                    syncPhoneFromCountry(name)
+                                    setLocationOpen(false)
+                                  }}
+                                >
+                                  <span className="field__dial-option-code">{name}</span>
+                                </button>
+                              </li>
+                            )
+                          })
+                        ) : (
+                          <li className="field__dial-empty" role="presentation">
+                            No matching country
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+
+            <div className="enquiry__row">
+              <label className="field">
+                <span className="field__label">Your role</span>
+                <input
+                  className="field__input"
+                  name="role"
+                  type="text"
+                  autoComplete="organization-title"
+                  placeholder="Ex. Investor Relations Manager"
                 />
               </label>
               <fieldset className="field field--phone">
@@ -276,6 +447,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                                     onClick={() => {
                                       setDialCode(country.code)
                                       setSelectedCountry(country.name)
+                                      syncLocationFromCountry(country.name)
                                       setDialOpen(false)
                                     }}
                                   >
@@ -307,17 +479,6 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                 </div>
               </fieldset>
             </div>
-
-            <label className="field">
-              <span className="field__label">Your role</span>
-              <input
-                className="field__input"
-                name="role"
-                type="text"
-                autoComplete="organization-title"
-                placeholder="Ex. Investor Relations Manager"
-              />
-            </label>
 
             <fieldset className="field field--checkboxes">
               <legend className="field__label" id={lookingForId}>
