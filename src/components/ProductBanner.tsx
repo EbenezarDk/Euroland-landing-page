@@ -6,19 +6,8 @@ type ProductBannerProps = {
 }
 
 export function ProductBanner({ product }: ProductBannerProps) {
-  const bannerImage = product.detailImage ?? product.videoSrc
-  const bannerAlt = product.detailImageAlt ?? `${product.label} preview`
-  const hasBannerMedia = Boolean(bannerImage)
-  const knockOutBlackBg =
-    product.slug === 'share-graph' ||
-    product.slug === 'interactive-analysis-tool' ||
-    product.slug === 'artificial-intelligence'
-
   return (
-    <section
-      className={`hero product-banner${hasBannerMedia ? ' product-banner--split' : ''}`}
-      aria-label={`${product.label} banner`}
-    >
+    <section className="hero product-banner" aria-label={`${product.label} banner`}>
       <div className="hero__bg" aria-hidden>
         <img
           className="hero__video"
@@ -48,26 +37,11 @@ export function ProductBanner({ product }: ProductBannerProps) {
             {product.subtitle}
           </TextAnimate>
 
-          <a className="hero__cta" href="#enquiry" data-hero="cta">
+          <a className="hero__cta product-banner__cta" href="#enquiry" data-hero="cta">
             Let's Talk
             <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
           </a>
         </div>
-
-        {hasBannerMedia ? (
-          <figure
-            className={`product-banner__media${knockOutBlackBg ? ' product-banner__media--knockout' : ''}`}
-          >
-            <img
-              src={bannerImage}
-              alt={bannerAlt}
-              width={960}
-              height={640}
-              decoding="async"
-              fetchPriority="high"
-            />
-          </figure>
-        ) : null}
       </div>
     </section>
   )

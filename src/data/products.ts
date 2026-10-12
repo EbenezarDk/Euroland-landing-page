@@ -28,7 +28,7 @@ export type ProductLiveExample = {
   src: string
   alt: string
   height?: number
-  /** Optional external URL â€” logo/preview becomes a link */
+  /** Optional external URL — logo/preview becomes a link */
   href?: string
   /** Full-width screenshot preview (e.g. Fact Sheet live example) */
   preview?: boolean
@@ -123,7 +123,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       eyebrow: 'About Share Graph',
       description: [
         'Present your share performance through an interactive and comprehensive Share Graph designed to give investors greater context around your company\'s performance.',
-        'Go beyond the numbers with an interactive view of your companyâ€™s share performance. Explore historical trends, compare performance with peers and market indices, and view key corporate events alongside share price movements.',
+        "Go beyond the numbers with an interactive view of your company's share performance. Explore historical trends, compare performance with peers and market indices, and view key corporate events alongside share price movements.",
       ],
     },
     pageIntroFollowUps: [

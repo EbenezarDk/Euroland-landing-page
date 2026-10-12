@@ -92,6 +92,16 @@ export function ProductPage() {
           headingId={`product-page-lead-heading-${product.slug}`}
         />
 
+        {product.detailImage ? (
+          <figure className="product-detail-media product-detail-media--after-lead">
+            <img
+              src={product.detailImage}
+              alt={product.detailImageAlt ?? `${product.label} preview`}
+              loading="lazy"
+            />
+          </figure>
+        ) : null}
+
         <ProductDetailBand>
           {(product.pageIntroFollowUps ?? []).map((followUp, index) => (
             <ProductIntro

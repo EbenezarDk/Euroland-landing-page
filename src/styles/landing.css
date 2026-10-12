@@ -1424,6 +1424,12 @@
   outline-offset: 2px;
 }
 
+.field__location--invalid {
+  border-color: rgba(220, 38, 38, 0.55);
+  outline: 2px solid rgba(220, 38, 38, 0.35);
+  outline-offset: 2px;
+}
+
 .field__location-trigger {
   display: flex;
   align-items: center;

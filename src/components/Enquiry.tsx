@@ -9,7 +9,7 @@ type EnquiryProps = {
 
 const LOOKING_FOR_OPTIONS = [
   { id: 'ir-tools', label: 'IR tools / IR website / Corporate website' },
-  { id: 'ir-website', label: 'Book a 120 days trials' },
+  { id: 'ir-website', label: 'Book a 120 days free trial' },
   { id: 'services', label: 'Need to talk about the services' },
 ] as const
 
@@ -37,6 +37,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
   const [locationCountry, setLocationCountry] = useState('')
   const [locationOpen, setLocationOpen] = useState(false)
   const [locationSearch, setLocationSearch] = useState('')
+  const [locationInvalid, setLocationInvalid] = useState(false)
   const dialRef = useRef<HTMLDivElement>(null)
   const dialSearchRef = useRef<HTMLInputElement>(null)
   const locationRef = useRef<HTMLDivElement>(null)
@@ -157,6 +158,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
 
   function syncLocationFromCountry(countryName: string) {
     setLocationCountry(countryName)
+    setLocationInvalid(false)
   }
 
   function handleDialChange(value: string) {
@@ -191,6 +193,12 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (!locationCountry) {
+      setLocationInvalid(true)
+      openLocationMenu()
+      return
+    }
+    setLocationInvalid(false)
     setSubmitted(true)
   }
 
@@ -264,15 +272,15 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                   placeholder="Ex. Euroland IR India"
                 />
               </label>
-              <div className="field">
+              <div className={`field${locationInvalid ? ' field--invalid' : ''}`}>
                 <span className="field__label" id={`${locationListId}-label`}>
-                  Your Location
+                  Your Location <span className="field__req">*</span>
                 </span>
                 <div
-                  className={`field__location${locationOpen ? ' field__location--open' : ''}`}
+                  className={`field__location${locationOpen ? ' field__location--open' : ''}${locationInvalid ? ' field__location--invalid' : ''}`}
                   ref={locationRef}
                 >
-                  <input type="hidden" name="location" value={locationCountry} />
+                  <input type="hidden" name="location" value={locationCountry} required />
                   <button
                     type="button"
                     className="field__location-trigger"
@@ -280,6 +288,8 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                     aria-haspopup="listbox"
                     aria-expanded={locationOpen}
                     aria-controls={locationListId}
+                    aria-required="true"
+                    aria-invalid={locationInvalid}
                     onClick={() => {
                       if (locationOpen) {
                         setLocationOpen(false)
@@ -333,6 +343,7 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                                   onMouseDown={(event) => event.preventDefault()}
                                   onClick={() => {
                                     setLocationCountry(name)
+                                    setLocationInvalid(false)
                                     syncPhoneFromCountry(name)
                                     setLocationOpen(false)
                                   }}
