@@ -17,14 +17,61 @@
   gap: 0;
 }
 
+.product-banner--split .product-banner__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  width: 100%;
+  max-width: 1520px;
+  margin-inline: auto;
+  margin-top: 0;
+  padding-inline: var(--page-pad);
+  text-align: left;
+}
+
+.product-banner__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  min-width: 0;
+  text-align: left;
+}
+
+.product-banner--split .hero__subtitle,
+.product-banner--split .hero__subtitle .text-animate__line {
+  text-align: left;
+  width: 100%;
+}
+
 .product-banner .hero__subtitle,
 .product-banner .hero__subtitle .text-animate__line {
   text-transform: uppercase;
+  font-size: clamp(22px, 3.15vw, 60px);
 }
 
 .product-banner .hero__subtitle .text-animate__line:first-child:not(:only-child) {
   color: var(--color-white);
   margin-bottom: 20px;
+}
+
+.product-banner__media {
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  border-radius: clamp(12px, 1.5vw, 20px);
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: 0 24px 64px rgba(0, 2, 21, 0.28);
+}
+
+.product-banner__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
 }
 
 .product-page__body {
@@ -202,9 +249,9 @@
 }
 
 .product-intro--page .product-intro__copy p {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
 }
 
@@ -323,9 +370,9 @@
 
 .product-intro--panel .product-intro__copy p {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 26px;
   color: #ffffff;
 }
 
@@ -373,9 +420,9 @@
 .product-intro--card .product-intro__lead-line {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
 }
 
@@ -384,9 +431,9 @@
 }
 
 .product-intro--card .product-intro__copy p {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
   opacity: 1;
 }
@@ -470,9 +517,9 @@
 
 .product-intro__copy p {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
   width: 100%;
   max-width: none;
@@ -529,7 +576,7 @@
 
 .product-split__intro .product-intro__copy p {
   color: rgba(255, 255, 255, 0.78);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 300;
   line-height: 1.65;
   max-width: 36ch;
@@ -635,7 +682,7 @@
   grid-column: auto;
   grid-row: auto;
   margin-top: auto;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.55;
   color: var(--color-muted);
 }
@@ -699,9 +746,9 @@
 
 .product-intro__copy p {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
   width: 100%;
   max-width: none;
@@ -885,7 +932,7 @@
 
 .product-explained__text {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 1.65;
   color: var(--color-ink);
@@ -1109,7 +1156,7 @@
 .product-features__title-block {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 1.65;
   color: var(--color-ink);
@@ -1131,7 +1178,7 @@
 
 .product-features__lead {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 1.65;
   color: var(--color-ink);
@@ -1271,18 +1318,18 @@
   margin: 0;
   width: 100%;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
 }
 
 .product-features__text {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--color-ink);
   opacity: 1;
   width: 100%;
@@ -1507,6 +1554,17 @@
   .product-banner {
     min-height: 60vh;
     min-height: 60dvh;
+  }
+
+  .product-banner--split .product-banner__content {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+
+  .product-banner__media {
+    display: none;
   }
 
   .product-intro {

@@ -7,6 +7,14 @@ type EnquiryProps = {
   waveRef: RefObject<HTMLImageElement | null>
 }
 
+const LOOKING_FOR_OPTIONS = [
+  { id: 'ir-tools', label: 'For IR tools' },
+  { id: 'ir-website', label: 'IR Website' },
+  { id: 'services', label: 'Need to talk about the services' },
+] as const
+
+const LOOKING_FOR_ALL = 'all' as const
+
 function normalizeDialCode(value: string) {
   const trimmed = value.trim()
   if (!trimmed) return ''
@@ -21,10 +29,28 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
   const [selectedCountry, setSelectedCountry] = useState('India')
   const [dialOpen, setDialOpen] = useState(false)
   const [dialSearch, setDialSearch] = useState('')
+  const [lookingFor, setLookingFor] = useState<string[]>([])
   const dialRef = useRef<HTMLDivElement>(null)
   const dialSearchRef = useRef<HTMLInputElement>(null)
   const listId = useId()
   const searchId = useId()
+  const lookingForId = useId()
+
+  const allLookingForIds = LOOKING_FOR_OPTIONS.map((option) => option.id)
+  const allLookingForSelected = allLookingForIds.every((id) => lookingFor.includes(id))
+
+  function toggleLookingFor(optionId: string) {
+    if (optionId === LOOKING_FOR_ALL) {
+      setLookingFor(allLookingForSelected ? [] : [...allLookingForIds])
+      return
+    }
+
+    setLookingFor((current) =>
+      current.includes(optionId)
+        ? current.filter((id) => id !== optionId)
+        : [...current, optionId],
+    )
+  }
 
   const selected =
     COUNTRY_DIAL_CODES.find((country) => country.name === selectedCountry) ??
@@ -292,6 +318,41 @@ export function Enquiry({ sectionRef, formRef, waveRef }: EnquiryProps) {
                 placeholder="Ex. Investor Relations Manager"
               />
             </label>
+
+            <fieldset className="field field--checkboxes">
+              <legend className="field__label" id={lookingForId}>
+                What are you looking for
+              </legend>
+              <div className="field__checkbox-list" role="group" aria-labelledby={lookingForId}>
+                {LOOKING_FOR_OPTIONS.map((option) => {
+                  const checked = lookingFor.includes(option.id)
+                  return (
+                    <label key={option.id} className="field__checkbox">
+                      <input
+                        className="field__checkbox-input"
+                        type="checkbox"
+                        name="lookingFor"
+                        value={option.id}
+                        checked={checked}
+                        onChange={() => toggleLookingFor(option.id)}
+                      />
+                      <span className="field__checkbox-box" aria-hidden />
+                      <span className="field__checkbox-label">{option.label}</span>
+                    </label>
+                  )
+                })}
+                <label className="field__checkbox">
+                  <input
+                    className="field__checkbox-input"
+                    type="checkbox"
+                    checked={allLookingForSelected}
+                    onChange={() => toggleLookingFor(LOOKING_FOR_ALL)}
+                  />
+                  <span className="field__checkbox-box" aria-hidden />
+                  <span className="field__checkbox-label">All the above</span>
+                </label>
+              </div>
+            </fieldset>
 
             <label className="field">
               <span className="field__label">Anything specific you&apos;d like to cover?</span>

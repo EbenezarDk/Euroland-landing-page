@@ -6,8 +6,15 @@ type ProductBannerProps = {
 }
 
 export function ProductBanner({ product }: ProductBannerProps) {
+  const bannerImage = product.detailImage ?? product.videoSrc
+  const bannerAlt = product.detailImageAlt ?? `${product.label} preview`
+  const hasBannerMedia = Boolean(bannerImage)
+
   return (
-    <section className="hero product-banner" aria-label={`${product.label} banner`}>
+    <section
+      className={`hero product-banner${hasBannerMedia ? ' product-banner--split' : ''}`}
+      aria-label={`${product.label} banner`}
+    >
       <div className="hero__bg" aria-hidden>
         <img
           className="hero__video"
@@ -23,23 +30,38 @@ export function ProductBanner({ product }: ProductBannerProps) {
       <div className="hero__text-overlay" aria-hidden style={{ opacity: 0.5 }} />
 
       <div className="hero__content product-banner__content">
-        <TextAnimate
-          as="h1"
-          className="hero__subtitle"
-          animation="fadeIn"
-          by="line"
-          startOnView={false}
-          once
-          accessible={false}
-          duration={0.4}
-        >
-          {product.subtitle}
-        </TextAnimate>
+        <div className="product-banner__copy">
+          <TextAnimate
+            as="h1"
+            className="hero__subtitle"
+            animation="fadeIn"
+            by="line"
+            startOnView={false}
+            once
+            accessible={false}
+            duration={0.4}
+          >
+            {product.subtitle}
+          </TextAnimate>
 
-        <a className="hero__cta" href="#enquiry" data-hero="cta">
-          Let's Talk
-          <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
-        </a>
+          <a className="hero__cta" href="#enquiry" data-hero="cta">
+            Let's Talk
+            <img src="/assets/arrow-white.svg" alt="" width={15} height={13} aria-hidden />
+          </a>
+        </div>
+
+        {hasBannerMedia ? (
+          <figure className="product-banner__media">
+            <img
+              src={bannerImage}
+              alt={bannerAlt}
+              width={960}
+              height={640}
+              decoding="async"
+              fetchPriority="high"
+            />
+          </figure>
+        ) : null}
       </div>
     </section>
   )

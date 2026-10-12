@@ -105,15 +105,6 @@ export function ProductPage() {
               headingId={`product-page-lead-heading-${product.slug}-follow-${index}`}
             />
           ))}
-          {product.detailImage ? (
-            <figure className="product-detail-media">
-              <img
-                src={product.detailImage}
-                alt={product.detailImageAlt ?? `${product.label} preview`}
-                loading="lazy"
-              />
-            </figure>
-          ) : null}
           <ProductFeatures product={product} hideHeader />
           <ProductLiveExamples product={product} />
         </ProductDetailBand>

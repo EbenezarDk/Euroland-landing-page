@@ -138,7 +138,7 @@ export const PRODUCTS: Record<ProductSlug, ProductContent> = {
       },
     ],
     detailImage: '/assets/share-graph-preview.png',
-    detailImageAlt: 'Share Graph â€” interactive share performance chart',
+    detailImageAlt: 'Share Graph — interactive share performance chart',
     featuresHeading: 'Features',
     features: [
       {
