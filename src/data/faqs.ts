@@ -104,4 +104,66 @@ export const PRODUCT_FAQS: Partial<Record<ProductSlug, FaqItem[]>> = {
         'Absolutely. Users can download data and charts in various formats, including Excel and presentation-ready outputs, making it easy to share insights during investor meetings, roadshows, social media campaigns, and internal reporting activities.',
     },
   ],
+  'artificial-intelligence': [
+    {
+      id: '1',
+      question: 'What is Euroland AI?',
+      answer:
+        'Euroland AI is an AI-powered Investor Relations solution that helps investors and IR teams quickly search, find, and understand information across available IR materials.',
+    },
+    {
+      id: '2',
+      question: 'What Investor Relations information can Euroland AI search?',
+      answer:
+        'Euroland AI can search available Investor Relations materials, including company filings, financial reports, earnings materials, transcripts, presentations, and other relevant disclosures.',
+    },
+    {
+      id: '3',
+      question: 'How does Euroland AI work?',
+      answer:
+        'Users can ask questions in natural language and receive context-aware answers based on available Investor Relations content.',
+    },
+    {
+      id: '4',
+      question: 'Can users verify Euroland AI answers?',
+      answer:
+        'Yes. Answers can include source references such as document names, links, and PDF page numbers, helping users locate and review the original information.',
+    },
+    {
+      id: '5',
+      question: 'Who can use Euroland AI?',
+      answer:
+        'Euroland AI is designed to support investors, analysts, and IR teams in finding and understanding relevant company information.',
+    },
+    {
+      id: '6',
+      question: 'How does Euroland AI help investors?',
+      answer:
+        'Euroland AI helps investors quickly locate relevant company information, understand key details, and access the underlying source documents.',
+    },
+    {
+      id: '7',
+      question: 'How does Euroland AI help Investor Relations teams?',
+      answer:
+        'It provides a searchable AI experience across available IR materials, helping IR teams quickly access information and respond to information needs more efficiently.',
+    },
+    {
+      id: '8',
+      question: 'Can Euroland AI provide answers based on company-specific information?',
+      answer:
+        'Yes. Answers can be based on the company-specific Investor Relations content available within the solution.',
+    },
+    {
+      id: '9',
+      question: 'Does Euroland AI include compliance controls?',
+      answer:
+        'Euroland AI includes compliance controls designed to support the appropriate use of Investor Relations information.',
+    },
+    {
+      id: '10',
+      question: 'Can Euroland AI replace official company disclosures?',
+      answer:
+        'No. Euroland AI helps users find and understand information, while official company filings and disclosures remain the authoritative sources.',
+    },
+  ],
 }
